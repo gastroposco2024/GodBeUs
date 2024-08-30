@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card card-custom shadow-sm">
+                <div class="card-header bg-white text-dark">
+                    <h3 class="card-title card-title-custom text-center">ACTUALIZAR PRODUCTO</h3>
+                </div>
+                <div class="card-body card-body-custom">
+                    <!-- Formulario de actualización -->
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            {{ form }}
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-custom-stacts">Guardar Cambios</button>
+                            <a href="javascript:history.back()" class="btn btn-custom-back">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Card for Profile Update -->
+            <div class="card card-custom shadow-sm">
+                <div class="card-body card-body-custom">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                Direccion:
+                                {{ form.address }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.phone.label_tag }} 
+                                {{ form.phone }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                Nombre Empresa:
+                                {{ form.company }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.logo.label_tag }} 
+                                {{ form.logo }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.tipo_documento.label_tag }} 
+                                {{ form.tipo_documento }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.numero_identificacion.label_tag }} 
+                                {{ form.numero_identificacion }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.nombre.label_tag }} 
+                                {{ form.nombre }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.segundo_nombre.label_tag }} 
+                                {{ form.segundo_nombre }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.apellidos.label_tag }} 
+                                {{ form.apellidos }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.correo.label_tag }} 
+                                {{ form.correo }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.municipio_departamento.label_tag }} 
+                                {{ form.municipio_departamento }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.direccion.label_tag }} 
+                                {{ form.direccion }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.responsabilidad_tributaria.label_tag }} 
+                                {{ form.responsabilidad_tributaria }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.tipo_persona.label_tag }} 
+                                {{ form.tipo_persona }}
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-custom-stacts align-self-end">Guardar</button>
+                        </div>
+                        
+                    </form>
+                </div>
+                {% if form.instance.imagen %}
+                <div class="card-footer text-center">
+                    <h5>Imagen Actual:</h5>
+                    <img src="{{ form.instance.imagen.url }}" alt="Imagen de Perfil" class="img-fluid rounded-circle" style="max-width: 200px; max-height: 200px;">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+{% endblock %}

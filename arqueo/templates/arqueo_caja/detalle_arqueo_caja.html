@@ -1,0 +1,390 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<style>
+.logo {
+    max-width: 250px; /* Ajusta el tamaño del logo */
+    margin: 0 auto 10px;
+}
+.card-img {
+    width: 40px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: auto;
+}
+.item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.badge-custom-large {
+    font-size: 1rem; /* Ajusta el tamaño del texto según tus necesidades */
+    padding: 0.5rem 1rem;
+}
+.badge-custom-large-moneda {
+    font-size: 1.5rem; /* Ajusta el tamaño del texto según tus necesidades */
+    padding: 0.5rem 1rem;
+}
+.badge-custom-large-billete {
+    font-size: 1.2rem; /* Ajusta el tamaño del texto según tus necesidades */
+    padding: 0.5rem 1rem;
+}
+</style>
+<div class="container-fluid mt-5">
+    <div class="card card-custom-prueba shadow-sm">
+        <div class="card-body card-body-custom">
+            <div class="row">
+                <!-- Columna para los detalles del arqueo -->
+                <div class="col-md-5 mb-4">
+                    <div class="card card-custom-prueba shadow-sm border-light h-100">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4 text-dark"><strong>Detalles del Arqueo ID# {{ arqueo.id }}</strong></h5>
+                            {% if profile.logo %}
+                            <div class="text-center">
+                                <img src="{% static 'images/arqueo.png' %}" class="logo" alt="Billete de 2000">
+                            </div>
+                            {% endif %}
+                            <a href="{% url 'listar_arqueos' %}" class="btn btn-hover"><img src="{% static 'icons/backaw.svg' %}" alt="Mesa" style="width:37px; height:37px;"></a>
+                            <div class="row">
+                                <div class="text-center text-dark">
+                                    <br>
+                                    <h5><i class="fa-solid fa-calendar-week"> Desde:</i> {{ arqueo.fecha_inicio|date:"d/m/Y h:i a" }} <i class="fa-regular fa-calendar-check"> Hasta:</i> {{ arqueo.fecha_fin|date:"d/m/Y h:i a" }}</h5>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                                <div class="card-body mt-4">
+                                    <div class="row">
+                                        
+                            
+                                        
+                                        <div class="col-md-6 mb-3">
+                                            <table class="table table-hover">
+                
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h5>Efectivo Inicial</h5></td>
+                                                        <td><span class="badge badge-custom-large bg-white rounded-pill text-dark">{{ arqueo.efectivo_inicial|format_number }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h5>Total Ventas</h5></td>
+                                                        <td><span class="badge badge-custom-large bg-white rounded-pill text-dark">{{ arqueo.total_ventas|format_number }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h5>Domicilios</h5></td>
+                                                        <td><span class="badge badge-custom-large bg-white rounded-pill text-dark">{{ arqueo.total_ventas_domicilios|format_number }}</span></td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td><h5>Pagos</h5></td>
+                                                        <td><span class="badge badge-custom-large bg-white rounded-pill text-dark">{{ arqueo.total_pagos|format_number }}</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <!-- Tabla derecha -->
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                
+                                                <tr>
+                                                    <td><h5>Efectivo Caja</h5></td>
+                                                    <td><span class="badge badge-custom-large bg-white rounded-pill text-dark">{{ arqueo.efectivo_final|format_number }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><h5>Conteo Caja</h5></td>
+                                                    <td><span class="badge badge-custom-large bg-white rounded-pill text-dark">{{ arqueo.efectivo_final_registrado|format_number }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><h5>Diferencias</h5></td>
+                                                    <td><span class="badge badge-custom-large bg-white rounded-pill text-dark">{{ arqueo.diferencias|format_number }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><h5>Observaciones</h5></td>
+                                                    <td>{{ arqueo.observaciones }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Columna para el conteo de monedas y billetes -->
+                <div class="col-md-7 mb-4">
+                 
+                    <div class="row">
+
+                        <!-- Conteo de Monedas -->
+                        <div class="col-md-12 mb-1">
+                            <div class="card card-custom-prueba shadow-sm border-light">
+                                <div class="card-body">
+              
+                                    <div class="container mt-5">
+                                        <div class="custom-grid-2">
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/moneda_50.jpg' %}" class="card-img" alt="Moneda de 50"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(18, 4, 56)'> 50</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.monedas_50 }}</h3>  
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-coins" style='font-size:18px;color:rgb(255, 255, 255)'> {{ arqueo.monedas_50|multiply:50|format_number }}</i></button></button>                
+                                                    <br>
+                                                </div>      
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/moneda_100.jpg' %}" class="card-img" alt="Moneda de 100"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(18, 4, 56)'> 100</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.monedas_100 }}</h3>   
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-coins" style='font-size:18px;color:rgb(255, 255, 255)'> {{ arqueo.monedas_100|multiply:100|format_number }}</i></button>                  
+                                                    <br>
+                                                </div>                
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/moneda_200.jpg' %}" class="card-img" alt="Moneda de 200"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(18, 4, 56)'> 200</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.monedas_200 }}</h3>      
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-coins" style='font-size:18px;color:rgb(247, 247, 247)'> {{ arqueo.monedas_200|multiply:200|format_number }}</i></button>                  
+                                                    <br>
+                                                </div>    
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/moneda_500.jpg' %}" class="card-img" alt="Moneda de 500"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(18, 4, 56)'> 500</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.monedas_500 }}</h3>           
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-coins" style='font-size:18px;color:rgb(255, 251, 251)'> {{ arqueo.monedas_500|multiply:500|format_number }}</i></button>                  
+                                                    <br>
+                                                </div>
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">             
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/moneda_1000.jpg' %}" class="card-img" alt="Moneda de 1000"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(18, 4, 56)'> 1.000</i>
+                                                    </span>              
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.monedas_1000 }}</h3>                                                  
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-coins" style='font-size:18px;color:rgb(255, 251, 251)'> {{ arqueo.monedas_1000|multiply:1000|format_number }}</i></button>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill"><i class="bi bi-cash-coin" style='font-size:18px;color:rgb(34, 36, 37)'> MONEDAS</i> </span>
+                                                    <br>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ total_monedas_cantidad }}</h3>
+                                                    
+                                                    <button class="btn bg-primary"><i class="fa-solid fa-coins" style='font-size:18px;color:rgb(255, 255, 255)'> {{ total_monedas|format_number }}</i></button>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                       <!-- Conteo de Billetes -->
+                        <div class="col-md-12 mb-1">
+                            <div class="card card-custom-prueba shadow-sm border-light h-100">
+                                <div class="card-body">
+                                    
+                                    <div class="container mt-5">
+                                        <div class="custom-grid">
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/billete_2000.png' %}" class="card-img" alt="Billete de 2000"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(0, 0, 0)'> 2.000</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.billetes_2000 }}</h3>
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-money-bills" style='font-size:18px;color:rgb(255, 255, 255)'> {{ arqueo.billetes_2000|multiply:2000|format_number }}</i></button>
+                                                    <br>
+                                                </div>
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/billete_5000.jpg' %}" class="card-img" alt="Billete de 5000"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(0, 0, 0)'> 5.000</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.billetes_5000 }}</h3>
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-money-bills" style='font-size:18px;color:#ffffff'> {{ arqueo.billetes_5000|multiply:5000|format_number }}</i></button>
+                                                    <br>
+                                                </div>          
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/billete_10000.jpeg' %}" class="card-img" alt="Billete de 10000"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(0, 0, 0)'> 10.000</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.billetes_10000 }}</h3>
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-money-bills" style='font-size:18px;color:rgb(254, 255, 254)'> {{ arqueo.billetes_10000|multiply:10000|format_number }}</i></button>
+                                                    <br>
+                                                </div>      
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/billete_20000.jpg' %}" class="card-img" alt="Billete de 20000"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(0, 0, 0)'> 20.000</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.billetes_20000 }}</h3>
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-money-bills" style='font-size:18px;color:rgb(255, 255, 255)'> {{ arqueo.billetes_20000|multiply:20000|format_number }}</i></button>                                  
+                                                    <br>
+                                                </div>      
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/billete_50000.jpg' %}" class="card-img" alt="Billete de 50000"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(0, 0, 0)'> 50.000</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.billetes_50000 }}</h3>
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-money-bills" style='font-size:18px;color:rgb(255, 255, 255)'> {{ arqueo.billetes_50000|multiply:50000|format_number }}</i></button>                                  
+                                                    <br>
+                                                </div> 
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <img src="{% static 'images/billete_100000.jpeg' %}" class="card-img" alt="Billete de 100000"> <i class="fa-duotone fa-solid fa-up-long" style='font-size:18px;color:rgb(0, 0, 0)'> 100.000</i>
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ arqueo.billetes_100000 }}</h3>
+                                                    <button class="btn bg-dark"><i class="fa-solid fa-money-bills" style='font-size:18px;color:rgb(255, 255, 255)'> {{ arqueo.billetes_100000|multiply:100000|format_number }}</i></button>                                  
+                                                    <br>
+                                                </div> 
+                                            </div>
+
+                                            <div class="custom-col">
+                                                <div class="item-container">
+                                                    <span class="badge badge-custom-large bg-secundary rounded-pill">
+                                                        <i class="bi bi-cash-stack" style='font-size:18px;color:rgb(5, 5, 6)'> BILLETES</i> 
+                                                    </span>
+                                                    <h3 class="text-dark"><img src="{% static 'icons/cant.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ total_billetes_cantidad }}</h3>
+                                                    <button class="btn bg-primary"><i class="fa-solid fa-money-bills" style='font-size:18px;color:rgb(253, 255, 253)'> {{ total_billetes|format_number }}</i></button>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    <!-- Ventas por Método -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <br>
+                            <div class="card card-custom shadow-sm border-light h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title-finalizar mt-4"><strong>Mesa</strong></h4>
+                                    <table class="table table-hover">
+                                        <thead class="table-warning">
+                                            <tr>
+                                                <th>Método de Pago</th>
+                                                <th>Total Ventas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for metodo, total in ventas_por_metodo.items %}
+                                            <tr>
+                                                <td class="table-primary">{{ metodo }}</td>
+                                                <td class="table-primary">$ {{ total|format_number }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr class="table-danger">
+                                                <td colspan="2" class="text-center">No hay ventas registradas.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ventas Domicilios -->
+                        <div class="col-md-4 mb-3">
+                            <br>
+                            <div class="card card-custom shadow-sm border-light h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title-finalizar mt-4"><strong>Domicilios</strong></h4>
+                                    <table class="table table-hover">
+                                        <thead class="table-warning">
+                                            <tr>
+                                                <th>Método de Pago</th>
+                                                <th>Total Ventas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for metodo, total in ventas_por_metodo_domicilios.items %}
+                                            <tr>
+                                                <td class="table-primary">{{ metodo }}</td>
+                                                <td class="table-primary">$ {{ total|format_number }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr class="table-danger">
+                                                <td colspan="2" class="text-center">No hay ventas registradas.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pagos -->
+                        <div class="col-md-4 mb-3">
+                            <br>
+                            <div class="card card-custom shadow-sm border-light h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title-finalizar mt-4"><strong>Pagos</strong></h4>
+                                    <table class="table table-hover">
+                                        <thead class="table-warning">
+                                            <tr>
+                                                <th>Método de Pago</th>
+                                                <th>Total Pagos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for metodo, total in pagos_por_metodo.items %}
+                                            <tr>
+                                                <td class="table-primary">{{ metodo }}</td>
+                                                <td class="table-primary">$ {{ total|format_number }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr class="table-danger">
+                                                <td colspan="2" class="text-center">No hay pagos registrados.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

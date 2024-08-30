@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Listado de Platos</h2>
+  <ul>
+    {% for plato in platos %}
+      <li>
+        <strong>{{ plato.nombre }}</strong> - {{ plato.descripcion }} - Precio: ${{ plato.precio }}
+        <br>
+        <a href="{% url 'detalle_plato' plato.id %}" class="btn btn-primary">Detalles</a>
+        <a href="{% url 'asociar_producto' plato.id %}" class="btn btn-secondary">Asociar Producto</a>
+      </li>
+    {% empty %}
+      <li>No hay platos disponibles.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

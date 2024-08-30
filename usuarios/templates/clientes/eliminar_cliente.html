@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h3 class="card-title">Eliminar Cliente ID# {{ cliente.id }}</h3>
+        </div>
+        <div class="card-body">
+            <p>¿Estás seguro de que deseas eliminar al cliente {{ cliente.nombre }}?</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <a href="{% url 'listar_clientes' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

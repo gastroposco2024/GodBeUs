@@ -1,0 +1,394 @@
+<!-- myapp/templates/home.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <header>
+        <h1 class="text-center mb-4">Planes y Precios del Software para Pymes en Colombia</h1>
+        <p class="text-center mb-5">Aprovecha la flexibilidad de los precios del Software para Pymes y selecciona el plan que más se ajuste a las necesidades de tu negocio.</p>
+    </header>
+
+    <section class="row">
+        <!-- POS Tienda -->
+        <div class="col-md-3 col-lg-4 mb-4">
+            <div class="card bg-white shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title text-primary">POS Tienda</h1>
+                    <p class="price">$49.990/ mes</p>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                    <h5 class="mt-3">Características</h5>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><strong>Facturas electrónicas:</strong> 350 ILIMITADAS POR LANZAMIENTO</li>
+                        <li class="list-group-item"><strong>Usuarios:</strong> 1</li>
+                        <li class="list-group-item"><strong>Cajas:</strong> 1</li>
+                        <li class="list-group-item"><strong>POS Electrónico:</strong> INCLUIDO</li>
+                        <li class="list-group-item"><strong>Soporte:</strong> Completo (correo, chat, whatsapp y atención telefónica personalizada)</li>
+                        <li class="list-group-item"><strong>Implantación:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>POS Online (No electrónico):</strong> ILIMITADO</li>
+                        <li class="list-group-item"><strong>Manejo de inventarios:</strong> 300 items ILIMITADOS POR LANZAMIENTO</li>
+                        <li class="list-group-item"><strong>App móvil:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Pagos mediante código QR:</strong> Incluido</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">+ Ver más detalles de este plan</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- POS Avanzado -->
+        <div class="col-md-4 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">POS Avanzado</h2>
+                    <p class="price">$79.990/ mes</p>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                    <h5 class="mt-3">Características</h5>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><strong>Facturas electrónicas:</strong> 2.000 ILIMITADAS POR LANZAMIENTO</li>
+                        <li class="list-group-item"><strong>Usuarios:</strong> 2</li>
+                        <li class="list-group-item"><strong>Cajas:</strong> 2</li>
+                        <li class="list-group-item"><strong>POS Electrónico:</strong> INCLUIDO</li>
+                        <li class="list-group-item"><strong>Soporte:</strong> Completo (correo, chat, whatsapp y atención telefónica personalizada)</li>
+                        <li class="list-group-item"><strong>Implantación:</strong> Personalizada</li>
+                        <li class="list-group-item"><strong>POS Online (No electrónico):</strong> ILIMITADO</li>
+                        <li class="list-group-item"><strong>Manejo de inventarios:</strong> ILIMITADOS</li>
+                        <li class="list-group-item"><strong>App móvil:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Contabilización:</strong> Básica incluida (Contabilidad avanzada opcional)</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">+ Ver más detalles de este plan</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- POS Restobar -->
+        <div class="col-md-4 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">POS Restobar</h2>
+                    <p class="price">$99.990/ mes</p>
+                    <p class="price mt-2">Desde $141.980 con FE ILIMITADA*</p>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                    <h5 class="mt-3">Características</h5>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><strong>Facturas electrónicas:</strong> 30 (FE ILIMITADA OPCIONAL)</li>
+                        <li class="list-group-item"><strong>Usuarios:</strong> ILIMITADOS</li>
+                        <li class="list-group-item"><strong>Productos de menú:</strong> ILIMITADOS</li>
+                        <li class="list-group-item"><strong>POS Electrónico:</strong> OPCIONAL</li>
+                        <li class="list-group-item"><strong>Soporte:</strong> Completo (correo, chat, whatsapp y atención telefónica personalizada)</li>
+                        <li class="list-group-item"><strong>Implantación:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>POS Online (No electrónico):</strong> ILIMITADO</li>
+                        <li class="list-group-item"><strong>Manejo de inventarios:</strong> ILIMITADOS</li>
+                        <li class="list-group-item"><strong>App móvil:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Gestión de mesas:</strong> Hasta 200</li>
+                        <li class="list-group-item"><strong>Gestión de gastos para restaurantes:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Control de recetas y gramaje:</strong> Incluido</li>
+                        <li class="list-group-item"><strong>Contabilidad integrada:</strong> Opcional</li>
+                        <li class="list-group-item"><strong>Menú digital:</strong> Incluido</li>
+                        <li class="list-group-item"><strong>Código QR para pago desde mesa:</strong> Incluido</li>
+                        <li class="list-group-item"><strong>Estadísticas y reportes:</strong> En tiempo real</li>
+                        <li class="list-group-item"><strong>Funcionalidad para partir cuentas:</strong> Incluida</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">+ Ver más detalles de este plan</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- POS PLUS -->
+        <div class="col-md-4 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">POS PLUS</h2>
+                    <p class="price">$230.990/ mes</p>
+                    <p class="price mt-2">Desde $272.980 con FE ILIMITADA*</p>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                    <h5 class="mt-3">Características</h5>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><strong>Facturas electrónicas:</strong> 200 (FE ILIMITADA OPCIONAL)</li>
+                        <li class="list-group-item"><strong>Usuarios:</strong> 5</li>
+                        <li class="list-group-item"><strong>Cajas:</strong> 5</li>
+                        <li class="list-group-item"><strong>POS Electrónico:</strong> INCLUIDO</li>
+                        <li class="list-group-item"><strong>Soporte:</strong> Completo (correo, chat, whatsapp y atención telefónica personalizada)</li>
+                        <li class="list-group-item"><strong>Implantación:</strong> Personalizada</li>
+                        <li class="list-group-item"><strong>POS Online (No electrónico):</strong> ILIMITADO</li>
+                        <li class="list-group-item"><strong>Manejo de inventarios:</strong> ILIMITADOS</li>
+                        <li class="list-group-item"><strong>App móvil:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Gestión y cuadre de cajas:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Gestión contable integral:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Decenas de reportes financieros y de ventas:</strong> Incluido</li>
+                        <li class="list-group-item"><strong>Gestión de compras:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Gestión de cuentas por pagar (CxP):</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Gestión de proveedores:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Contabilización por punto de venta:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Centros de costo:</strong> Incluido</li>
+                        <li class="list-group-item"><strong>Gestión integral de cartera (CxC):</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Acceso remoto para contadores:</strong> Incluido</li>
+                        <li class="list-group-item"><strong>Gestión de listas de precio:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Gestión de cotizaciones:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Gestión de clientes y terceros:</strong> Incluida</li>
+                        <li class="list-group-item"><strong>Gestión de tesorería:</strong> Incluida</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">+ Ver más detalles de este plan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="text-center mt-5">
+        <p>Si ninguno de nuestros planes se adapta a tus necesidades, te podemos brindar una asesoría personalizada. ¡contáctanos!</p>
+        <p>Todos nuestros planes incluyen IVA del 0%</p>
+    </footer>
+    <!-- Módulos y detalles de cada plan -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Módulos y Detalles de Cada Plan</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Características</th>
+                <th>POS Tienda</th>
+                <th>POS Avanzado</th>
+                <th>POS Restobar</th>
+                <th>POS PLUS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Software POS 100% Web, sin necesidad de instalaciones</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Cumple obligatoriedad de Factura Electrónica de la DIAN</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Facturas Electrónicas / mes</td>
+                <td>350 Ilimitadas por lanzamiento</td>
+                <td>2.000 Ilimitadas por lanzamiento</td>
+                <td>30 (opción ilimitada adicional)</td>
+                <td>200 (opción ilimitada adicional)</td>
+            </tr>
+            <tr>
+                <td>POS Online (No electrónico)</td>
+                <td>Ilimitado</td>
+                <td>Ilimitado</td>
+                <td>Ilimitado</td>
+                <td>Ilimitado</td>
+            </tr>
+            <tr>
+                <td>Catálogo de Productos</td>
+                <td>300 Ilimitados por lanzamiento</td>
+                <td>Ilimitado</td>
+                <td>Ilimitado</td>
+                <td>Ilimitado</td>
+            </tr>
+            <tr>
+                <td>Gestión de Inventarios Avanzada</td>
+                <td>Manejo básico</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Software 100% web</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Reportes gerenciales en tiempo real</td>
+                <td>Básicos</td>
+                <td><i class="fa fa-check"></i></td>
+                <td>Especializados para restaurantes</td>
+                <td>Reportes financieros</td>
+            </tr>
+            <tr>
+                <td>Manejo de datáfono y cajonera POS</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Manejo de cajas POS y múltiples medios de pago</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Establecimientos incluidos en el plan</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>Manejo de múltiples bodegas</td>
+                <td>1</td>
+                <td>4</td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Reportes de ventas, inventario e informes financieros</td>
+                <td>Básicos</td>
+                <td>Avanzados</td>
+                <td>Especializados en sector gastronómico</td>
+                <td>Avanzados y con profundidad financiera</td>
+            </tr>
+            <tr>
+                <td>Monitoreo Inteligente de Cuadre de Cajas</td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>App en celular para aperturar y cerrar cajas de manera remota</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Múltiples medios de pago</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Certificado Digital</td>
+                <td>Incluido sólo para pagos a un año</td>
+                <td>Incluido sólo para pagos a un año</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Contabilidad y funciones financieras</td>
+                <td>Básica (Comprobantes contables)</td>
+                <td>Opcional</td>
+                <td>Avanzada</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Gestión de Bancos y Tesorería</td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Informe de venta - DIAN</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Generación Automática de Comprobantes Contables</td>
+                <td>Básica</td>
+                <td>Con módulo adicional</td>
+                <td>Con automatización Avanzada</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Manejo de Devoluciones</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Módulo para Manejo de Compras</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Gestión de proveedores y clientes</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Manejo de Centros de Costos</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Envío de Cotizaciones</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+            <tr>
+                <td>Gestión de Menú (Restobares)</td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Menú digital (Restobares)</td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Gestión de mesas (Restobares)</td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Zona de comanda (Restobares)</td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Código QR en mesas (Restobares)</td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Pagos mediante código QR (Restobares)</td>
+                <td></td>
+                <td></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 class="mt-4">Complementos</h4>
+    <ul class="list-group">
+        <li class="list-group-item">Integración con Rappi (Restobares): Opcional desde $16.790</li>
+        <li class="list-group-item">Caja adicional: $15.000/mes</li>
+        <li class="list-group-item">Esquema especial para restaurantes: ¡Contáctanos!</li>
+        <li class="list-group-item">Facturación Electrónica Ilimitada: Incluida por lanzamiento (opcional para algunos planes)</li>
+    </ul>
+</div>
+
+</div>
+{% endblock %}

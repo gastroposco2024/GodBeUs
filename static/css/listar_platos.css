@@ -1,0 +1,134 @@
+.card-custom-2 {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(8, 4, 246, 0.1);
+    background-color: #0847dade; /* Fondo oscuro para un aspecto moderno */
+    color: #ffffff; /* Texto blanco para contraste */
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card-custom-2:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-header-custom-2 {
+    background-color: #2c2c2e; /* Un poco más claro que el fondo de la tarjeta */
+    border-bottom: none;
+    border-radius: 15px 15px 0 0;
+  }
+
+/* Estilo para las cartas */
+.card-custom-mesa-pedido {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(8, 4, 246, 0.1);
+  background-color: #b8c0d2de; /* Fondo oscuro para un aspecto moderno */
+  color: #ffffff; /* Texto blanco para contraste */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-custom {
+    max-width: 300px; /* Ancho máximo estándar para todas las cartas */
+    margin: 0 auto; /* Centra las cartas horizontalmente */
+    height: 330px; /* Altura fija para todas las cartas */
+    display: flex; /* Usa Flexbox para alinear el contenido de la carta */
+    flex-direction: column; /* Coloca el contenido en una columna */
+    justify-content: space-between; /* Distribuye el espacio entre el contenido */
+}
+
+/* Estilo para las imágenes dentro de las cartas */
+.img-custom {
+    height: 150px; /* Altura fija para las imágenes */
+    width: 100%; /* Ancho completo para la imagen */
+    object-fit: cover; /* Mantiene el aspecto de la imagen */
+}
+
+.img-custom-update {
+    width: 300px; /* Ajusta el ancho según sea necesario */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+.img-custom-update:hover {
+transform: scale(1.05);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajuste para el texto de las cartas */
+.card-body {
+    text-align: center; /* Centra el texto dentro de la carta */
+    flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
+}
+
+/* Ajuste para el formulario dentro de las cartas */
+.card-body form {
+    margin-bottom: 0; /* Elimina el margen inferior del formulario */
+}
+
+/* Contenedor para los botones */
+.card-buttons {
+    display: flex; /* Usa Flexbox para alinear los botones */
+    flex-wrap: wrap; /* Permite que los botones se envuelvan si es necesario */
+    gap: 1rem; /* Espacio entre los botones */
+    justify-content: center; /* Centra los botones horizontalmente */
+}
+
+/* Estilo individual para los botones dentro de las cartas */
+.card-buttons .btn {
+    margin: 0; /* Elimina el margen alrededor de los botones */
+    padding: 0.5rem 1rem; /* Ajusta el relleno de los botones */
+    flex: 1 1 45%; /* Hace que los botones ocupen aproximadamente la mitad del contenedor */
+    box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño total del botón */
+}
+
+/* Estilo para el contenedor de botones en un formato 2x2 */
+.card-buttons-container {
+    display: flex; /* Usa Flexbox para alinear los botones en filas y columnas */
+    flex-wrap: wrap; /* Permite que los botones se envuelvan si es necesario */
+    gap: 1rem; /* Espacio entre los botones */
+}
+
+.card-title-2 {
+    font-size: 1.5rem; /* Tamaño del texto, ajusta según prefieras */
+    font-weight: 700; /* Peso de la fuente, negrita */
+    color: #f7f5f5; /* Color del texto, puedes cambiarlo según tu esquema de color */
+    text-transform: uppercase; /* Transforma el texto a mayúsculas */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    margin-bottom: 1rem; /* Espaciado inferior */
+    text-align: center; /* Centra el texto horizontalmente */
+  }
+
+/* Estilo del encabezado de la tarjeta */
+.card-header {
+    background-color: #34495e; /* Fondo azul oscuro */
+    color: #ccf4fe; /* Texto claro */
+    border-bottom: 1px solid #2c3e50; /* Borde sutil */
+    text-align: center;
+    padding: 15px;
+    font-size: 1.2rem;
+  }
+
+/* CSS para los botones de aumentar y disminuir */
+.btn-outline-secondary {
+    background-color: rgb(237, 225, 138);
+    border: 1px solid #ddd;
+    color: #160707;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #dec615;
+    border-color: #ccc;
+    color: #000;
+}
+
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+    color: #000;
+    box-shadow: none;
+}

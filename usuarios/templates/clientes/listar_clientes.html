@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card card-custom-prueba shadow-sm">
+        <div class="card-body card-body-custom">
+            <div class="accordion" id="clientesAccordion">
+                {% for item in formularios %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{ item.cliente.id }}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ item.cliente.id }}" aria-expanded="true" aria-controls="collapse{{ item.cliente.id }}">
+                            {{ item.cliente.nombre }} - {{ item.cliente.direccion }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ item.cliente.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ item.cliente.id }}" data-bs-parent="#clientesAccordion">
+                        <div class="accordion-body">
+                            <form method="post" action="{% url 'editar_cliente' item.cliente.id %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="{{ item.form.nombre.id_for_label }}">Nombre</label>
+                                    {{ item.form.nombre }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ item.form.telefono.id_for_label }}">Teléfono</label>
+                                    {{ item.form.telefono }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ item.form.direccion.id_for_label }}">Dirección</label>
+                                    {{ item.form.direccion }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ item.form.documento.id_for_label }}">Documento</label>
+                                    {{ item.form.documento }}
+                                </div>
+                                <br>
+                                <div class="text-center">
+                                    <a href="{% url 'eliminar_cliente' item.cliente.id %}" class="btn btn-custom-back">Eliminar</a>
+                                    <button type="submit" class="btn btn-custom-stacts">Actualizar</button>
+                                </div>
+                            </form>
+                            <br>
+
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert-warning" role="alert">No hay clientes registrados.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

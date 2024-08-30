@@ -1,0 +1,420 @@
+/* Estilo para la imagen dentro de la tarjeta */
+.face-pic {
+  width: 100%; /* Ajusta el ancho de la imagen */
+  max-width: 120px; /* Tamaño máximo de la imagen */
+  border-radius: 8px; /* Bordes redondeados */
+  margin-bottom: 1rem; /* Espacio debajo de la imagen */
+}
+
+/* Estilo para el botón */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.card-custom {
+  border-radius: 10px; /* Bordes redondeados */
+  border: 1px solid #ddd; /* Borde sutil */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  transition: box-shadow 0.3s ease; /* Transición suave para la sombra */
+}
+
+.card-custom-finalizar {
+  border-radius: 10px; /* Bordes redondeados */
+  border: 1px solid #ddd; /* Borde sutil */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  transition: box-shadow 0.3s ease; /* Transición suave para la sombra */
+  background-color: #435360b6;
+}
+
+.card-custom:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumentar la sombra al pasar el ratón */
+}
+
+.card-body-custom {
+  padding: 1.5rem; /* Espaciado interno más amplio */
+}
+
+.card-title-custom {
+  font-size: 1.5rem; /* Tamaño de fuente más grande para el título */
+  color: #333; /* Color del texto */
+}
+
+.card-text-custom {
+  font-size: 1.1rem; /* Tamaño de fuente para el texto */
+  color: #555; /* Color del texto */
+}
+
+.list-group-item-custom {
+  font-size: 1.1rem; /* Tamaño de fuente para los elementos de la lista */
+  padding: 10px; /* Espaciado interno */
+}
+
+.badge-custom {
+  font-size: 1rem; /* Tamaño de fuente del badge */
+  padding: 0.5em 0.75em; /* Espaciado del badge */
+}
+
+.card-title {
+  font-size: 1.25rem; /* Tamaño del texto, ajusta según prefieras */
+  font-weight: 700; /* Peso de la fuente, negrita */
+  color: #f0eee8dd; /* Color del texto, puedes cambiarlo según tu esquema de color */
+  text-transform: uppercase; /* Transforma el texto a mayúsculas */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  margin-bottom: 1rem; /* Espaciado inferior */
+  text-align: center; /* Centra el texto horizontalmente */
+}
+
+.card-title-2 {
+  font-size: 1.5rem; /* Tamaño del texto, ajusta según prefieras */
+  font-weight: 700; /* Peso de la fuente, negrita */
+  color: #f7f5f5; /* Color del texto, puedes cambiarlo según tu esquema de color */
+  text-transform: uppercase; /* Transforma el texto a mayúsculas */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  margin-bottom: 1rem; /* Espaciado inferior */
+  text-align: center; /* Centra el texto horizontalmente */
+}
+
+.card-title-3 {
+  font-size: 1.4rem; /* Tamaño del texto, ajusta según prefieras */
+  font-weight: 700; /* Peso de la fuente, negrita */
+  color: #f45858; /* Color del texto, puedes cambiarlo según tu esquema de color */
+  text-transform: uppercase; /* Transforma el texto a mayúsculas */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  margin-bottom: 1rem; /* Espaciado inferior */
+  text-align: center; /* Centra el texto horizontalmente */
+}
+
+.card-title-platos {
+  font-size: 1.2rem; /* Tamaño del texto, ajusta según prefieras */
+  font-weight: 700; /* Peso de la fuente, negrita */
+  color: #010725; /* Color del texto, puedes cambiarlo según tu esquema de color */
+  text-transform: uppercase; /* Transforma el texto a mayúsculas */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  margin-bottom: 1rem; /* Espaciado inferior */
+  text-align: center; /* Centra el texto horizontalmente */
+}
+
+.card-title-finalizar {
+  font-size: 1.4rem; /* Tamaño del texto, ajusta según prefieras */
+  font-weight: 700; /* Peso de la fuente, negrita */
+  color: #351e03; /* Color del texto, puedes cambiarlo según tu esquema de color */
+  text-transform: uppercase; /* Transforma el texto a mayúsculas */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  margin-bottom: 1rem; /* Espaciado inferior */
+  text-align: center; /* Centra el texto horizontalmente */
+}
+
+.card-title a {
+  text-decoration: none; /* Elimina el subrayado del enlace */
+  color: #007bff; /* Color del enlace, puedes cambiarlo a tu color de enlace preferido */
+  transition: color 0.3s ease; /* Transición suave para el color del enlace */
+}
+
+.card-title a:hover {
+  color: #0056b3; /* Color del enlace al pasar el cursor */
+}
+
+hr.my-5 {
+  border: 0;
+  border-top: 1px solid #1a1829; /* Borde de la división */
+  margin: 3rem 0; /* Espaciado superior e inferior */
+}
+
+/* Alineación del título */
+h2 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #343a40; /* Color de texto */
+}
+
+/* Estilo para el formulario de búsqueda */
+.form-inline .form-control {
+  width: auto; /* Ajustar el ancho del campo de entrada */
+}
+
+.list-unstyled {
+  padding-left: 0; /* Eliminar relleno de la lista */
+  margin-bottom: 0; /* Eliminar margen inferior */
+}
+
+.list-unstyled li {
+  font-size: 0.875rem; /* Tamaño de fuente de los elementos de la lista */
+}
+
+.fixed-size-card {
+  width: 100%; /* Ajusta el ancho según sea necesario */
+  max-width: 100%; /* Asegura que no se desborde del contenedor */
+  height: 500px; /* Altura fija para la tarjeta */
+  overflow-y: auto; /* Permite el scroll vertical si el contenido excede la altura */
+}
+
+.card-body {
+  height: calc(100% - 56px); /* Ajusta la altura del cuerpo de la tarjeta, restando la altura del header y footer si es necesario */
+  overflow-y: auto; /* Añade scroll si el contenido es demasiado grande */
+}
+
+.card-mesa {
+  cursor: pointer; /* Cambia el cursor para indicar que es clickeable */
+  border: 2px solid #dee2e6; /* Añade un borde */
+  border-radius: 12px; /* Redondea las esquinas */
+  transition: border-color 0.3s ease, background-color 0.3s ease; /* Transiciones suaves */
+  background-color: #04244694;
+}
+
+.card-mesa:hover,
+.card-mesa:focus-within {
+  border-color: #eeff00; /* Cambia el color del borde al pasar el ratón o cuando está enfocado */
+}
+
+.card-body-pedido {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 800px; /* Ajusta la altura según tus necesidades */
+  min-height: 500px; /* Ajusta según sea necesario */
+  padding: 20px; /* Ajusta según sea necesario */
+}
+
+/* Esconde el input radio pero lo mantiene funcional */
+.form-check-input.d-none {
+  display: none;
+}
+
+/* Cambia el fondo cuando la tarjeta está seleccionada */
+.card-mesa input:checked + label {
+  background-color: #043fe0b7; /* Color de fondo cuando la tarjeta está seleccionada */
+  color: white; /* Color del texto cuando la tarjeta está seleccionada */
+  border: 2px solid #dee2e6; /* Añade un borde */
+  border-radius: 12px; /* Redondea las esquinas */
+  transition: border-color 0.3s ease, background-color 0.3s ease; /* Transiciones suaves */
+}
+
+.card.shadow-sm.border-light.card-mesa-sm {
+  border: 1px solid #555538ca !important; /* Añade un borde más grueso y usa !important para sobrescribir otros estilos */
+  border-radius: 0.375rem;
+  transition: border-color 0.3s ease;
+}
+
+.card.shadow-sm.border-light.card-mesa-sm:hover {
+  border-color: #3b1975 !important;
+}
+
+.card-mesa-label:hover {
+  background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón */
+}
+
+.logo-img {
+  width: 200px; /* Ajusta el ancho a tu preferencia */
+  height: auto; /* Mantiene la relación de aspecto */
+}
+
+/* Contenedor de las tarjetas */
+.pedidos-activos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0; /* Elimina el espacio entre tarjetas */
+  margin: -10px; /* Elimina el margen en el contenedor */
+  padding: 0; /* Elimina el relleno en el contenedor */
+}
+
+/* Contenedor de cada tarjeta */
+.pedido-card-container {
+  flex: 1 1 calc(33.333% - 20px); /* 3 tarjetas por fila, ajusta según el espacio disponible */
+  margin: 10px; /* Espacio entre tarjetas */
+  box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el ancho total */
+}
+
+/* Estilo de cada tarjeta */
+.pedido-card {
+  background: #1e1e2d; /* Fondo oscuro para un aspecto moderno */
+  color: #f5f5f5; /* Texto claro */
+  border: 1px solid #2c3e50; /* Borde gris oscuro */
+  border-radius: 10px; /* Bordes redondeados */
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden; /* Asegura que el contenido no sobresalga de la tarjeta */
+  margin: 0; /* Elimina el margen en las tarjetas */
+  padding: 0; /* Elimina el relleno en las tarjetas */
+}
+
+/* Ajuste de diseño en pantallas más grandes */
+@media (min-width: 768px) {
+  .pedido-card-container {
+    flex: 1 1 calc(25% - 20px); /* 4 tarjetas por fila en pantallas más grandes */
+  }
+}
+
+/* Nueva clase para ajustar la altura de la imagen */
+.img-card {
+  height: 100px; /* Ajusta la altura según sea necesario */
+  object-fit: cover; /* Asegura que la imagen se ajuste bien dentro del contenedor */
+}
+
+/* Estilo moderno para las cartas de pedidos activos */
+.card-title-2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Estilo del encabezado de la tarjeta */
+.pedido-header {
+  background-color: #34495e; /* Fondo azul oscuro */
+  color: #ccf4fe; /* Texto claro */
+  border-bottom: 1px solid #2c3e50; /* Borde sutil */
+  text-align: center;
+  padding: 15px;
+  font-size: 1.2rem;
+}
+
+/* Estilo del título en el encabezado */
+.pedido-title {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+/* Contenedor de la cantidad */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-control .btn-custom-quantity {
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  padding: 0;
+}
+
+.quantity-input {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.btn-custom-quantity {
+  background-color: #007bff; /* Cambia el color según tu diseño */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-custom-quantity:hover {
+  background-color: #0056b3; /* Cambia el color según tu diseño */
+}
+
+/* Alineación de los elementos dentro de la lista de artículos */
+.pedido-item {
+  display: flex;
+  align-items: center;
+}
+
+.pedido-item .form-inline {
+  display: flex;
+  align-items: center;
+}
+
+/* Botones de editar y eliminar */
+.btn-custom, .btn-custom-back {
+  margin: 0;
+}
+
+.btn-custom {
+  background-color: #0b649f; /* Cambia el color según tu diseño */
+  color: #fff;
+}
+
+.btn-custom:hover {
+  background-color: #053352; /* Cambia el color según tu diseño */
+}
+
+.btn-custom-back {
+  background-color: #dc3545; /* Cambia el color según tu diseño */
+  color: #fff;
+}
+
+.btn-custom-back:hover {
+  background-color: #c82333; /* Cambia el color según tu diseño */
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: #e0e0e0;
+  transition: width 0.5s;
+}
+
+.progress-bar.pendiente {
+  background-color: #00ccff; /* Amarillo para pendiente */
+}
+
+.progress-bar.en-camino {
+  background-color: #ffcc00; /* Azul para en camino */
+}
+
+.progress-bar.entregado {
+  background-color: #00cc00; /* Verde para entregado */
+}
+
+.progress-bar.facturando {
+  background-color: #b70f0f; /* Naranja para facturando */
+}
+
+.card-custom-mesa-pedido {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(8, 4, 246, 0.1);
+  background-color: #b8c0d2de; /* Fondo oscuro para un aspecto moderno */
+  color: #ffffff; /* Texto blanco para contraste */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-custom-mesa-pedido:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-header-custom-mesa-pedido {
+  background-color: #2c2c2e; /* Un poco más claro que el fondo de la tarjeta */
+  border-bottom: none;
+  border-radius: 15px 15px 0 0;
+}
+
+/* CSS para los botones de aumentar y disminuir */
+.btn-outline-secondary {
+  background-color: rgb(222, 206, 82);
+  border: 1px solid #080808;
+  color: #302f2f;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #dec615;
+  border-color: #ccc;
+  color: #000;
+}
+
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+  background-color: #e0e0e0;
+  border-color: #bbb;
+  color: #000;
+  box-shadow: none;
+}
+
+.estado-entregado {
+  background-color: #d4edda; /* Color verde claro */
+  color: #155724; /* Color de texto verde oscuro */
+}
+
+.estado-en-proceso {
+  background-color: #fff3cd; /* Color amarillo claro */
+  color: #856404; /* Color de texto amarillo oscuro */
+}

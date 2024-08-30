@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    {% if not hay_en_curso %}
+    <div class="mb-3">
+        <a href="{% url 'iniciar_arqueo_caja' %}" class="btn btn-primary">
+            <i class="fa-solid fa-coins"> ARQUEO</i>
+        </a>
+    </div>
+    {% endif %}
+
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table table-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Cierre</th>
+                        <th>Base Inicial</th>
+                        <th>Venta Mesa</th>
+                        <th>Venta Domicilio</th>
+                        <th>Total Pagos</th>
+                        <th>Efectivo Final</th>
+                        <th>Efectivo Contado</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for arqueo in arqueos %}
+                    <tr>
+                        <td>{{ arqueo.id }}</td>
+                        <td>{{ arqueo.fecha_inicio|date:"d/m/Y h:i a" }}</td>
+                        <td>{{ arqueo.fecha_fin|date:"d/m/Y h:i a" }}</td>
+                        <td>${{ arqueo.efectivo_inicial|format_number }}</td>
+                        <td>${{ arqueo.total_ventas|format_number }}</td>
+                        <td>${{ arqueo.total_ventas_domicilios|format_number }}</td>
+                        <td>${{ arqueo.total_pagos|format_number }}</td>
+                        <td>${{ arqueo.efectivo_final|format_number }}</td>
+                        <td>${{ arqueo.efectivo_final_registrado|format_number }}</td>
+                        <td>{{ arqueo.estado }}</td>
+                        <td>
+                            {% if arqueo.estado == 'En Curso' %}
+                            <a href="{% url 'cerrar_arqueo_caja' arqueo.id %}" class="btn btn-warning">Cerrar</a>
+                            {% endif %}
+                            <a href="{% url 'detalle_arqueo' arqueo.id %}" class="btn btn-primary">Detalle</a>
+                            <a href="{% url 'eliminar_arqueo' arqueo.id %}" class="btn btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-center">No hay arqueos de caja registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+</div>
+{% endblock %}

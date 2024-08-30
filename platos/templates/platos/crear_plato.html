@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card card-custom shadow-sm">
+                
+                <div class="card-body card-body-custom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="{% static 'images/dish.jpg' %}" alt="Imagen del Plato" class="img-custom-update">
+                        </div>
+                        <div class="col-md-6">
+                            <form method="post" enctype="multipart/form-data"><strong>
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="{{ form.nombre.id_for_label }}">Nombre del Plato</label>
+                                    {{ form.nombre }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ form.precio.id_for_label }}">Precio</label>
+                                    {{ form.precio }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ form.categoria.id_for_label }}">Categoría</label>
+                                    {{ form.categoria }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ form.imagen.id_for_label }}">Seleccionar Imagen</label>
+                                    {{ form.imagen }}
+                                </div></strong>
+                                <div class="text-center mt-4">
+                                    <a href="javascript:history.back()" class="btn btn-danger"><i class="fa-solid fa-circle-left" style="font-size: 12px;"> Cancelar</i></a>
+                                    <button type="submit" class="btn btn-success"><i class="fa-regular fa-floppy-disk" style="font-size: 12px;"> Guardar</i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Factura de Venta</title>
+    <style>
+        @media print {
+            /* Estilos para impresión */
+            .no-print {
+                display: none;
+            }
+        }
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .invoice {
+            width: 100%;
+            max-width: 300px; /* Ancho típico de una máquina tiquetera */
+            margin: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .invoice h1, .invoice h2, .invoice h3, .invoice h4, .invoice p {
+            margin: 0;
+            padding: 0;
+            margin-bottom: 5px;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .invoice-table th, .invoice-table td {
+            padding: 5px;
+            text-align: left;
+            border: none; /* Quitar los bordes */
+        }
+        .total-row {
+            font-weight: bold;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+            margin-top: 10px;
+        }
+        .logo {
+            max-width: 100px; /* Ajusta el tamaño del logo */
+            margin: 0 auto 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice">
+        <div class="text-center">
+            {% if profile.logo %}
+            <div>
+                <img src="{{ profile.logo.url }}" alt="Logo de la empresa" class="logo">
+            </div>
+            {% endif %}
+            <h2><strong>{{ profile.company }}</strong></h2>
+            <p>{{ profile.tipo_documento }} {{ profile.numero_identificacion }}</p>
+            <p>{{ profile.direccion }}, {{ profile.municipio_departamento }}</p>
+            <p><strong>Teléfono:</strong> +57{{ profile.phone }}</p>
+            <p>{{ profile.correo }}</p>
+            <p><strong>Régimen:</strong> {{ profile.responsabilidad_tributaria }}</p>
+            <br>
+            <h4>Factura de venta de papel</h4>
+            <h4>N°{{ compra.id }}</h4>
+            <p><strong>Fecha emisión:</strong> {{ compra.fecha_compra|date:"d/m/Y h:i a" }}</p>
+            <p><strong>Forma de pago: </strong>{{ compra.tipo_pago }}</p>
+            <p><strong>Mesa: </strong>{{ compra.mesa.numero }}</p>
+            <br>
+            <h3>Consumidor final</h3>
+            <h4>CC {{ compra.cedula_cliente }}</h4>
+        </div>
+        
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Plato</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in detalles %}
+                <tr class="total-row">
+                    <td>{{ detalle.plato.nombre }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>${{ detalle.precio_unitario|format_number }}</td>
+                    <td>${{ detalle.total_detalle|format_number }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No hay detalles de platos.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="3">Subtotal</td>
+                    <td>${{ compra.total|format_number }}</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Total IVA</td>
+                    <td>${{ compra.valor_impuesto|format_number }}</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="3">Total Cancelado</td>
+                    <td>${{ compra.total_impuesto|format_number }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+        <h4>Resumen de impuestos</h4>
+        <table class="invoice-table">
+            <tbody>
+                <tr>
+                    <th>Tarifa</th>
+                    <th>Base</th>
+                    <th>Impuesto</th>
+                </tr>
+                <tr>
+                    <td>{{ compra.impuesto }}</td>
+                    <td>${{ compra.total|format_number }}</td>
+                    <td>${{ compra.valor_impuesto|format_number }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <p>Esta factura se asimila en todos sus efectos a una letra de cambio de conformidad con el Art. 774 del código de comercio. Autorizo que en caso de incumplimiento de esta obligación sea reportado a las centrales de riesgo, se cobrarán intereses por mora.</p>
+        <br>
+        <p>GastronomyPOS - NIT 100.742.979-4 - gastronomypos.com/pos</p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            window.print();
+            window.onafterprint = function() {
+                window.location.href = "{{ redirect_url }}";
+            };
+        };
+    </script>
+</body>
+</html>

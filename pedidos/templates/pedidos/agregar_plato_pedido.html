@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/listar_platos.css' %}">
+{% endblock %}
+
+{% block content %}
+<style>
+    .btn-group .btn {
+        margin-right: 20px; /* Ajusta el valor según tus necesidades */
+    }
+
+    .btn-group .btn:last-child {
+        margin-right: 0; /* Elimina el margen del último botón para evitar espacio extra al final */
+    }
+</style>
+<div class="container mt-5">
+    <div class="card card-custom-mesa-pedido shadow-sm mb-4">
+        <div class="card-header bg-secundary text-white text-center">
+            <h3 class="card-title">Pedido ID: {{ pedido.id }} - Mesa: {{ pedido.mesa.numero }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Columna para el formulario de agregar plato -->
+                <div class="col-md-4 mb-4">
+                    <!-- Formulario de búsqueda -->
+                    <form method="get" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre..." value="{{ request.GET.buscar }}">
+                            <button type="submit" class="btn btn-info"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </form>
+
+                    <!-- Formulario para agregar plato al pedido -->
+                    <form id="agregarPlatoForm" method="post" class="mb-4">
+                        {% csrf_token %}
+                        {{ form.plato }}
+                        <div class="mb-3">
+                            <br>
+                            <h5><label for="id_cantidad" class="form-label text-dark">Cantidad</label></h5>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity(-1)"><i class="fa-solid fa-minus"></i></button>
+                                {{ form.cantidad }}
+                                <button type="button" class="btn btn-outline-secondary" onclick="changeQuantity(1)"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </div>
+                        {{ form.detalle }}
+                        <br>
+                        <button type="submit" class="btn btn-hover"><img src="{% static 'icons/cart_pay.svg' %}" alt="Mesa" style="width:57px; height:57px;"></button>
+                    </form>
+
+                    <!-- Lista de platos en el pedido -->
+                    {% if pedido.itempedido_set.exists %}
+                    <h4 class="text-dark">Items</h4>
+                    <ul class="list-group">
+                        {% for item in pedido.itempedido_set.all %}
+                        <li class="list-group-item d-flex align-items-center">
+                            <!-- Nombre del plato -->
+                            <div class="col-md-6">
+                                <h5>{{ item.plato.nombre }}</h5>
+                            </div>
+                            <!-- Detalles del plato -->
+                            <div class="col-md-6 d-flex justify-content-end">
+                                <span class="me-3"><strong>Cantidad:</strong> {{ item.cantidad }}</span>
+                                <span>{{ item.detalle }}</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="text-dark">
+                        <p>No hay platos en el pedido.</p>
+                    </div>
+                    
+                    {% endif %}
+                </div>
+
+                <!-- Columna para el acordeón de categorías -->
+                <div class="col-md-8">
+                    <!-- Acordeón de categorías -->
+                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                        {% for categoria in categorias %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button {% if forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{ categoria.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="panelsStayOpen-collapse{{ categoria.id }}">
+                                    <span class="text-primary" style="font-size: 22px;"><img src="{% static 'icons/item_nav.svg' %}" alt="Mesa" style="width:27px; height:27px;"> {{ categoria.nombre }}</span>
+                    
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapse{{ categoria.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        {% for plato in categoria.platos.all %}
+                                        <div class="col-md-4 mb-4">
+                                            <div class="card card-custom shadow-sm border-light">
+                                                {% if plato.imagen %}
+                                                    <img src="{{ plato.imagen.url }}" class="card-img-top img-custom" alt="Imagen de plato">
+                                                {% else %}
+                                                    <img src="{% static 'images/dish.jpg' %}" class="card-img-top img-custom" alt="Imagen por defecto">
+                                                {% endif %}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ plato.nombre }}</h5>
+                                                    <i class="fa-solid fa-tag" style="font-size: 19px;"> {{ plato.precio|format_number }}</i><br>
+                                                    <button type="button" class="btn btn-hover" onclick="agregarPlato('{{ plato.id }}')"><img src="{% static 'icons/add_plus.svg' %}" alt="Mesa" style="width:37px; height:37px;"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% empty %}
+                                        <p>No hay platos registrados en esta categoría.</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Botones de acción adicionales -->
+        <div class="card-footer text-center">
+            <div class="btn-group" role="group">
+                <a href="{% url 'crear_pedido' %}" class="btn btn-hover"><img src="{% static 'icons/backaw.svg' %}" alt="Mesa" style="width:37px; height:37px;"></a>
+                <a href="{% url 'imprimir_comanda_pedido' pedido.id %}" class="btn btn-hover"><img src="{% static 'icons/comanda.svg' %}" alt="Mesa" style="width:42px; height:42px;"></i></a>
+                <a href="{% url 'finalizar_venta' pedido.id %}" class="btn btn-hover mb-7"><img src="{% static 'icons/pay_black.svg' %}" alt="Mesa" style="width:37px; height:37px;"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function agregarPlato(platoId) {
+    document.getElementById('id_plato').value = platoId;
+}
+
+function changeQuantity(delta) {
+    var quantityInput = document.getElementById('id_cantidad');
+    var currentQuantity = parseInt(quantityInput.value);
+    var newQuantity = currentQuantity + delta;
+    if (newQuantity < 1) {
+        newQuantity = 1;
+    }
+    quantityInput.value = newQuantity;
+}
+
+</script>
+
+{% endblock %}

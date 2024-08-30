@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+      <div>
+        <a href="{% url 'crear_producto' %}">
+            <i class="fa-solid fa-shop" style="font-size:32px;"> Producto</i>
+        </a>
+      </div>
+    </div>
+</div>
+<form method="get" action="{% url 'lista_productos' %}" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Buscar productos...">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </div>
+</form>
+
+  <table class="table table-hover">
+    <thead class="table-primary">
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Cantidad Disponible</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Unidad Medida</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for info in productos_info %}
+      <tr>
+        <form method="post" action="{% url 'actualizar_producto' info.producto.id %}">
+          {% csrf_token %}
+          <input type="hidden" name="producto_id" value="{{ info.producto.id }}">
+          <input type="hidden" name="q" value="{{ query }}">
+          <td>
+            <input type="text" name="nombre" value="{{ info.nombre }}" class="form-control">
+          </td>
+          <td>
+            <input type="number" name="cantidad_disponible" value="{{ info.cantidad_disponible }}" class="form-control">
+          </td>
+          <td>
+            <input type="text" step="0.01" name="precio" value="{{ info.precio|remove_decimals_and_dots }}" class="form-control">
+          </td>
+          <td>
+            {{ info.form.unidad_medida }}
+          </td>
+          <td>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-arrows-rotate"></i></button>
+        </form>
+        
+        <form method="post" action="{% url 'eliminar_producto' info.producto.id %}" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que deseas eliminar?');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+        </form>
+          </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4">No hay productos registrados.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

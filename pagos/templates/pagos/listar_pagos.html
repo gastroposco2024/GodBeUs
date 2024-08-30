@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <a href="{% url 'crear_pago' %}" class="btn btn-warning mb-3 text-white"><strong>NUEVO PAGO</strong></a>
+    <div class="card card-custom-prueba shadow-sm">
+        <div class="card-body card-body-custom">
+            <!-- Formulario de búsqueda -->
+            <form method="GET" class="form-inline mb-4 d-flex justify-content-center">
+                <div class="input-group mx-2">
+                    <input type="date" name="fecha" class="form-control" value="{{ request.GET.fecha }}">
+                </div>
+                <div class="input-group mx-2">
+                    <select name="concepto" class="form-control">
+                        <option value="">Todos los conceptos</option>
+                        {% for c in conceptos %}
+                        <option value="{{ c }}" {% if request.GET.concepto == c %}selected{% endif %}>{{ c }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-warning"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+            </form>
+        </div>
+    </div>
+    <br>
+    <!-- Tabla de pagos -->
+    <table class="table table-bordered">
+        <thead class="table-warning">
+            <tr>
+             
+                <th>Fecha</th>
+                <th>Método de Pago</th>
+                <th>Nota Egreso</th>
+                <th>Concepto</th>
+                <th>Subtotal</th>
+                <th>Total</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pago in pagos %}
+            <tr>
+             
+                <td>{{ pago.fecha|date:"d/m/Y h:i a" }}</td>
+                <td>{{ pago.metodo_pago }}</td>
+                <td>{{ pago.nota_egreso }}</td>
+                <td>{{ pago.concepto }}</td>
+                <td>${{ pago.valor|format_number }}</td>
+                <td>${{ pago.calcular_total|format_number }}</td>
+                <td>{{ pago.observaciones }}</td>
+                <td>
+                    <a href="{% url 'editar_pago' pago.id %}" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="{% url 'eliminar_pago' pago.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este pago?')">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center">No hay pagos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Paginación -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if pagos.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}{% if request.GET.concepto %}&concepto={{ request.GET.concepto }}{% endif %}" aria-label="Primera">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ pagos.previous_page_number }}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}{% if request.GET.concepto %}&concepto={{ request.GET.concepto }}{% endif %}" aria-label="Anterior">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for num in pagos.paginator.page_range %}
+                {% if pagos.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}{% if request.GET.concepto %}&concepto={{ request.GET.concepto }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if pagos.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ pagos.next_page_number }}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}{% if request.GET.concepto %}&concepto={{ request.GET.concepto }}{% endif %}" aria-label="Siguiente">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ pagos.paginator.num_pages }}{% if request.GET.fecha %}&fecha={{ request.GET.fecha }}{% endif %}{% if request.GET.concepto %}&concepto={{ request.GET.concepto }}{% endif %}" aria-label="Última">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

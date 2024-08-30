@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pedidos_activos.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <hr class="my-5">
+    <div id="pedidoCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for slide in slides %}
+            <button type="button" data-bs-target="#pedidoCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for slide in slides %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row">
+                    {% for pedido in slide %}
+                    <div class="col-md-3 mb-3">
+                        <div class="custom-card">
+                            <div class="custom-card-body">
+                                <h6 class="custom-card-title">Mesa: {{ pedido.mesa.numero }} - ID: {{ pedido.id }}</h6>
+                                <h5 class="custom-card-subtitle"><i class="fa-regular fa-clock"><strong> Hora: {{ pedido.fecha_pedido|date:"h:i a" }}</strong></i></h5>
+                            </div>
+                            <ul class="custom-list-group">
+                                {% for item in pedido.itempedido_set.all %}
+                                <li class="custom-list-item"><h5>
+                                    {% if item.plato %}
+                                        {{ item.plato.nombre }}
+                                    {% else %}
+                                        {{ item.producto.nombre }}
+                                    {% endif %}</h5><h6>
+                                    Cantidad: {{ item.cantidad }}<br> {{ item.detalle }}<br>
+                                    {% if item.estado != 'Entregado' %}</h6>
+                                    <form method="post" action="{% url 'cambiar_estado_item' item.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-warning btn-sm mt-2" style="font-weight: bold;"><img src="{% static 'icons/cocina.svg' %}" alt="Mesa" style="width:37px; height:45px;"> ENTREGAR</button>
+                                    </form>
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#pedidoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#pedidoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <hr class="my-5">
+    <div id="pedidoDomicilioCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for slide in slides_domicilio %}
+            <button type="button" data-bs-target="#pedidoDomicilioCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for slide in slides_domicilio %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row">
+                    {% for pedido in slide %}
+                    <div class="col-md-3 mb-3">
+                        <div class="custom-card">
+                            <div class="custom-card-body">
+                                <h6 class="custom-card-title">{{ pedido.nombre_cliente }} - ID: {{ pedido.id }}</h6>
+                                <h5 class="custom-card-subtitle"><i class="fa-regular fa-clock"><strong> Hora: {{ pedido.fecha_pedido|date:"h:i a" }}</strong></i></h5>
+                            </div>
+                            <ul class="custom-list-group">
+                                {% for item in pedido.itempedidodomicilio_set.all %}
+                                <li class="custom-list-item">
+                                    {% if item.plato %}
+                                        {{ item.plato.nombre }}
+                                    {% else %}
+                                        {{ item.producto.nombre }}
+                                    {% endif %}
+                                    <br>Cantidad: {{ item.cantidad }}<br>Detalle: {{ item.detalle }}<br>
+                                    {% if item.estado != 'Entregado' %}
+                                    <form method="post" action="{% url 'cambiar_estado_item_domicilio' item.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-warning btn-sm mt-2" style="font-weight: bold;"><img src="{% static 'icons/cocina.svg' %}" alt="Mesa" style="width:37px; height:45px;"> ENTREGAR</button>
+                                    </form>
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#pedidoDomicilioCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#pedidoDomicilioCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+<br>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let lastUpdate = new Date(); // Marca de tiempo de la última actualización
+    
+        function checkForUpdates() {
+        fetch("{% url 'pedidos_actualizados' %}?last_update=" + lastUpdate.toISOString())
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error('Network response was not ok: ' + text);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.pedidos.length > 0) {
+                    data.pedidos.forEach(pedido => {
+                        alert(`Nuevo pedido: ${pedido.id} - ${pedido.plato__nombre || pedido.producto__nombre} (${pedido.cantidad})`);
+                    });
+                }
+                if (data.pedidos.length > 0) {
+                    lastUpdate = new Date(Math.max(...data.pedidos.map(p => new Date(p.created_at).getTime())));
+                    // Recargar la página después de mostrar las alertas
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error al obtener actualizaciones:', error));
+    }
+    
+        // Revisa si hay actualizaciones cada 5 segundos
+        setInterval(checkForUpdates, 5000);
+    });
+</script>
+{% endblock %}

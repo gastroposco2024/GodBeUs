@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_pedido.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <div class="row">
+        <!-- Columna: Crear Pedido -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm fixed-size-card" style="background: transparent; border-style: none;">
+                <div class="card-body-pedido">
+                    <hr class="my-5">
+                    <hr class="my-5">
+                    <hr class="my-5">
+                    <!-- Tarjetas para seleccionar mesas -->
+                    <form method="post" action="{% url 'crear_pedido' %}" class="mb-4">
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for mesa in mesas %}
+                            <div class="col-md-4 mb-4">
+                                <div class="card card-mesa shadow-sm">
+                                    <input type="radio" name="mesa" value="{{ mesa.id }}" id="mesa_{{ mesa.id }}" class="form-check-input d-none">
+                                    <label for="mesa_{{ mesa.id }}" class="card-body d-flex flex-column justify-content-center align-items-center">
+                                        <strong>
+                                            <h1 class="card-title mb-1" style="font-size: 30px;">
+                                                <img src="{% static 'icons/items_unit.svg' %}" alt="Mesa" style="width:27px; height:37px;"> {{ mesa.numero }}
+                                            </h1>
+                                            <p class="card-text mb-1">
+                                                <i class="fa-solid fa-user" style="color: rgb(233, 241, 211);"> {{ mesa.capacidad }}</i>
+                                            </p>
+                                        </strong>
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn bg-hover text-white">
+                                <img src="{% static 'icons/add_table.svg' %}" alt="Mesa" style="width:87px; height:63px;">
+                                
+                            </button>
+                            <button type="button" class="btn bg-warning text-white border-success" data-bs-toggle="modal" data-bs-target="#modalPedidoDomicilio">
+                                <img src="{% static 'icons/delivery.svg' %}" alt="Mesa" style="width:37px; height:37px;">
+                               
+                            </button>
+                        </div>
+                        <div class="card-footer text-center">
+                            <i class="fa-solid fa-caret-up"></i>
+                        </div>                        
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna derecha: Pedidos Activos como cartas -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm mb-4 fixed-size-card" style="background: transparent; border-style: none;">
+                <div class="card-body">
+                    <div class="row pedidos-activos">
+                        {% for pedido in pedidos_activos %}
+                        <div class="col-md-6 mb-4 pedido-card-container">
+                            <div class="card border-success mb-3">
+                                <div class="card-header text-white text-center pedido-header">
+                                    <h5 class="card-title-2 mb-0 pedido-title"><img src="{% static 'icons/items_unit.svg' %}" alt="Mesa" style="width:27px; height:27px;"> {{ pedido.id }} | Mesa {{ pedido.mesa.numero }}</h5>
+                                </div>
+                                <div class="card-body text-center pedido-body">
+                                    <h4><span class="badge badge-custom-large bg-white rounded-pill text-dark"><img src="{% static 'icons/hora.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ pedido.fecha_pedido|date:"h:i a" }}</span></h4>
+                                    <ul class="list-group pedido-items">
+                                        {% for item in pedido.itempedido_set.all %}
+                                        <li class="list-group-item pedido-item 
+                                            {% if item.estado == 'Entregado' %}
+                                                estado-entregado
+                                            {% elif item.estado == 'En proceso' %}
+                                                estado-en-proceso
+                                            {% endif %}">
+                                            <button class="btn btn-detalles"><strong>{{ item.cantidad }} | {{ item.plato.nombre }}</strong></button>
+                                        </li>
+
+                                        {% endfor %}
+                                    </ul>
+                                    <a href="{% url 'detalle_pedido' pedido.mesa.id %}" class="btn btn-hover mt-3 btn-detalles"><img src="{% static 'icons/info_black.svg' %}" alt="Mesa" style="width:40px; height:40px;"></a>
+                                    <a href="{% url 'agregar_plato_pedido' pedido.id %}" class="btn btn-hover mt-3 btn-detalles"><img src="{% static 'icons/add_black.svg' %}" alt="Mesa" style="width:45px; height:45px;"></a>            
+                                    <a href="{% url 'finalizar_venta' pedido.id %}" class="btn btn-hover mt-3 btn-detalles"><img src="{% static 'icons/check_black.svg' %}" alt="Mesa" style="width:45px; height:45px;"></a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para Crear Pedido Domicilio -->
+        <div class="modal fade" id="modalPedidoDomicilio" tabindex="-1" role="dialog" aria-labelledby="modalPedidoDomicilioLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content card-mesa">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-white" id="pedidoDomicilioModalLabel">Informacion del Cliente</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formPedidoDomicilio" method="post" action="{% url 'crear_pedido_domicilio' %}">
+                            {% csrf_token %}
+                            <div class="form-group text-white">
+                                Documento:
+                                <input type="text" id="doc_cliente" name="doc_cliente" class="form-control" placeholder="Documento del cliente" value="{{ form_domicilio.doc_cliente.value|default:'' }}">
+                                <ul id="resultadosBusqueda" class="list-group" style="display: none;"></ul>
+                            </div>
+                            <div class="form-group text-white">
+                                Nombre:
+                                <input type="text" id="nombre_cliente" name="nombre_cliente" class="form-control" placeholder="Nombre del cliente" value="{{ form_domicilio.nombre_cliente.value|default:'' }}">
+                            </div>
+                            <div class="form-group text-white">
+                                Telefono:
+                                <input type="tel" id="telefono_cliente" name="telefono_cliente" class="form-control" placeholder="Teléfono del cliente" pattern="[0-9]{10}" value="{{ form_domicilio.telefono_cliente.value|default:'' }}">
+                            </div>
+                            <div class="form-group text-white">
+                                Dirección:
+                                <textarea id="direccion_cliente" name="direccion_cliente" class="form-control" placeholder="Dirección del cliente" rows="1">{{ form_domicilio.direccion_cliente.value|default:'' }}</textarea>
+                            </div>                           
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-warning">Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Columna derecha: Pedidos Activos Domicilios como cartas -->
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm mb-4 fixed-size-card" style="background: transparent; border-style: none;">
+                <div class="card-body">
+                    <div class="row pedidos-activos">
+                        {% for pedido, items in pedidos_con_items %}
+                        <div class="col-md-6 mb-4 pedido-card-container">
+                            <div class="card border-success mb-3" data-pedido-id="{{ pedido.id }}">
+                                <div class="card-header text-white text-center pedido-header">
+                                    <h5 class="card-title-2 mb-0 pedido-title"><img src="{% static 'icons/tag.svg' %}" alt="Mesa" style="width:27px; height:27px;"> {{ pedido.id }} | {{ pedido.nombre_cliente }}</h5>
+                                </div>
+                                <div class="card-body text-center pedido-body">                           
+                                    <h4 class="card-text mb-2 pedido-fecha"><img src="{% static 'icons/location.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ pedido.direccion_cliente }} | <img src="{% static 'icons/hora.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ pedido.fecha_pedido|date:"h:i a" }}</h4>
+                                    <br>
+                                    <ul class="list-group pedido-items">
+                                        {% for item in items %}
+                                        <li class="list-group-item pedido-item 
+                                            {% if item.estado == 'Entregado' %}
+                                                estado-entregado
+                                            {% elif item.estado == 'En proceso' %}
+                                                estado-en-proceso
+                                            {% endif %}">
+                                            <button class="btn btn-detalles"><strong>{{ item.cantidad }} | {{ item.plato.nombre }}</strong></button>
+                                        </li>
+
+                                        {% endfor %}
+                                    </ul>
+                                    <a href="{% url 'agregar_plato_pedido_domicilio' pedido.id %}" class="btn btn-hover mt-3 btn-detalles"><img src="{% static 'icons/add.svg' %}" alt="Mesa" style="width:37px; height:37px;"></a>
+                                    <a href="{% url 'detalle_pedido_domicilio' pedido.id %}" class="btn btn-hover mt-3 btn-detalles"><img src="{% static 'icons/info.svg' %}" alt="Mesa" style="width:37px; height:37px;"></a>
+                                    <a href="{% url 'finalizar_venta_domicilio' pedido.id %}" class="btn btn-hover mt-3 btn-detalles"><img src="{% static 'icons/pay.svg' %}" alt="Mesa" style="width:37px; height:37px;"></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+    console.log("El script se está ejecutando");
+    console.log("DOM está listo");
+
+    $('#doc_cliente').on('input', function() {
+        console.log("Entrada detectada:", $(this).val()); // Verifica el valor de entrada
+        var term = $(this).val();
+        if (term.length > 1) {
+            $.ajax({
+                url: '{% url "buscar_clientes" %}',
+                data: {'term': term},
+                success: function(data) {
+                    console.log("Datos recibidos:", data); // Verifica los datos recibidos
+                    var resultadosBusqueda = $('#resultadosBusqueda');
+                    resultadosBusqueda.empty();
+                    if (data.length > 0) {
+                        resultadosBusqueda.show();
+                        data.forEach(function(cliente) {
+                            resultadosBusqueda.append(
+                                '<li class="list-group-item list-group-item-action" data-id="' + cliente.id + '" data-nombre="' + cliente.nombre + '" data-telefono="' + cliente.telefono + '" data-direccion="' + cliente.direccion + '" data-documento="' + cliente.documento + '">' + cliente.nombre + ' - ' + cliente.documento + '</li>'
+                            );
+                        });
+                    } else {
+                        resultadosBusqueda.hide();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en la búsqueda:', xhr.responseText);
+                }
+            });
+        } else {
+            $('#resultadosBusqueda').hide();
+        }
+    });
+
+    $('#resultadosBusqueda').on('click', 'li', function() {
+        var nombre = $(this).data('nombre');
+        var telefono = $(this).data('telefono');
+        var direccion = $(this).data('direccion');
+        var documento = $(this).data('documento');
+
+        $('#nombre_cliente').val(nombre);
+        $('#telefono_cliente').val(telefono);
+        $('#direccion_cliente').val(direccion);
+        $('#doc_cliente').val(documento);  // Actualiza el campo doc_cliente
+        $('#resultadosBusqueda').hide();
+    });
+
+    $('#formPedidoDomicilio').on('submit', function(event) {
+        event.preventDefault();
+        var form = $(this);
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            success: function(response) {
+                $('#modalPedidoDomicilio').modal('hide');
+                alert('Pedido creado exitosamente');
+                if (response.success) {
+                    window.location.href = response.redirect_url;
+                } else {
+                    alert('Ocurrió un error al crear el pedido: ' + response.errors);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Ocurrió un error al crear el pedido: ' + xhr.responseText);
+            }
+        });
+    });
+
+        function actualizarEstado(pedidoId) {
+            if (!pedidoId) {
+                console.error("No se ha proporcionado un ID de pedido válido.");
+                return;
+            }
+
+            const url = `/pedidos/actualizar_estado/${pedidoId}/`;
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok " + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Datos recibidos para estado:", data); // Verifica los datos recibidos
+                    const progressBar = document.querySelector('.progress-bar[data-pedido-id="' + pedidoId + '"]');
+                    if (progressBar) {
+                        let width, estadoClass;
+                        switch (data.estado_pedido) {
+                            case 'Pendiente':
+                                width = '33%';
+                                estadoClass = 'pendiente';
+                                break;
+                            case 'En camino':
+                                width = '66%';
+                                estadoClass = 'en-camino';
+                                break;
+                            case 'Facturando':
+                                width = '80%';
+                                estadoClass = 'facturando';
+                                break;
+                            case 'Entregado':
+                                width = '100%';
+                                estadoClass = 'entregado';
+                                break;
+                            default:
+                                width = '0%';
+                                estadoClass = 'desconocido';
+                        }
+                        progressBar.style.width = width;
+                        progressBar.innerText = data.estado_pedido;
+                        progressBar.className = 'progress-bar ' + estadoClass;
+                    }
+                })
+                .catch(error => {
+                    console.error("Hubo un problema con la solicitud fetch:", error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const pedidoIds = [...document.querySelectorAll('.progress-bar')].map(el => el.dataset.pedidoId);
+            pedidoIds.forEach(id => actualizarEstado(id));
+
+            // Actualizar el estado cada 5 minutos
+            setInterval(() => {
+                pedidoIds.forEach(id => actualizarEstado(id));
+            }, 300000);
+        });
+    });
+</script>
+
+{% endblock %}

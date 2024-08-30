@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card card-custom shadow-sm">
+    <div class="card-body card-body-custom">
+      <div class="row">
+        <div class="col-md-6">
+          {% if plato.imagen %}
+              <img src="{{ plato.imagen.url }}" class="img-custom-update" alt="Imagen de entrada">
+          {% else %}
+              <img src="{% static 'images/dish.jpg' %}" class="img-custom-update" alt="Imagen por defecto">
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <!-- Formulario de actualización -->
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center mt-4">
+              <a href="javascript:history.back()" class="btn btn-danger"><i class="fa-solid fa-circle-left" style="font-size: 12px;"> Cancelar</i></a>
+              <button type="submit" class="btn btn-success"><i class="fa-regular fa-floppy-disk" style="font-size: 12px;"> Guardar</i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

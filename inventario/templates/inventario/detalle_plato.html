@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Card for Plato Details -->
+    <div class="card shadow-sm card-compact">
+        <div class="card-header bg-primary text-white text-center">
+            <h2 class="mb-0">{{ plato.nombre }}</h2>
+        </div>
+        <div class="card-body text-center">
+            <h3 class="card-subtitle mb-3 text-muted">Precio: ${{ plato.precio }}</h3>
+            {% if plato.imagen %}
+                <img src="{{ plato.imagen.url }}" alt="Logo" class="logo-img img-fluid rounded-circle">
+            {% else %}
+                <img src="{% static 'images/dish.jpg' %}" alt="Logo" class="logo-img img-fluid rounded-circle">
+            {% endif %}
+            <!-- Productos Asociados -->
+            <h4 class="card-title mb-4">Productos Asociados:</h4>
+            <ul class="list-group mb-4">
+                {% for plato_producto in plato_productos %}
+                <li class="list-group-item">
+                    <strong>{{ plato_producto.producto.nombre }}</strong> - Cantidad Necesaria: {{ plato_producto.cantidad_necesaria }}
+                </li>
+                {% empty %}
+                <li class="list-group-item">No hay productos asociados a este plato.</li>
+                {% endfor %}
+            </ul>
+
+            <!-- Back Button -->
+            <div class="text-center">
+                <a href="{% url 'listar_platos' %}" class="btn btn-primary">Volver al Listado</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

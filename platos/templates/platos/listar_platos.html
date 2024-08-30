@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/listar_platos.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div>
+        <a href="{% url 'crear_plato' %}">
+            <i class='fas fa-pizza-slice' style='font-size:30px'> Plato</i>
+        </a>
+        
+    </div>
+    <div>
+        <a href="{% url 'crear_categoria' %}">
+            <i class="fa fa-list" style="font-size:32px;"> Categoria</i>
+        </a>
+    </div>
+    <br>
+    
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        {% for categoria, platos in platos_por_categoria.items %}
+        <div class="accordion-item" style="background: transparent;">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="panelsStayOpen-collapse{{ forloop.counter }}">
+                    <i class="fa-solid fa-server"> {{ categoria.nombre }}</i> 
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapse{{ forloop.counter }}" class="accordion-collapse collapse">
+                <div class="accordion-body" style="background: transparent;">
+                    <div class="row">
+                        {% for plato in platos %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-sm border-light">
+                                {% if plato.imagen %}
+                                    <img src="{{ plato.imagen.url }}" class="card-img-top img-custom" alt="Imagen de plato">
+                                {% else %}
+                                    <img src="{% static 'images/dish.jpg' %}" class="card-img-top img-custom" alt="Imagen por defecto">
+                                {% endif %}
+                                <div class="card-body">
+                                    <div>
+                                        <a href="{% url 'actualizar_plato' plato.id %}">
+                                            <i class="fa-regular fa-lemon"> {{ plato.nombre }}</i>
+                                        </a>
+                                    </div>
+                                    
+                                    <div>
+                                        <a href="{% url 'actualizar_plato' plato.id %}">
+                                            <i class="fa-solid fa-tag"> ${{ plato.precio|floatformat:0 }}</i>
+                                        </a>
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <form method="post" action="{% url 'eliminar_plato' plato.id %}" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que deseas eliminar?');">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash" style="font-size: 12px;" > Eliminar</i></button>
+                                        </form>
+                                        <a href="{% url 'asociar_producto' plato.id %}" class="btn btn-success"><i class="fa-solid fa-receipt" style="font-size: 12px;"> Recetas</i></a>           
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>No hay platos en esta categoría.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

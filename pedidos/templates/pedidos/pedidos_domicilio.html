@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Pedidos de Domicilio</h2>
+    <div class="row">
+        {% for pedido in pedidos_domicilio %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Pedido {{ pedido.id }}</h5>
+                    <p class="card-text">Cliente: {{ pedido.nombre_cliente }}</p>
+                    <p class="card-text">Teléfono: {{ pedido.telefono_cliente }}</p>
+                    <p class="card-text">Dirección: {{ pedido.direccion_cliente }}</p>
+                    <p class="card-text">Estado: {{ pedido.estado_pedido }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!-- templates/ventas/obtener_registros_venta.html -->
+{% extends 'ventas/base.html' %}
+
+{% block content %}
+<h2>Registros de Ventas</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID Compra</th>
+            <th>Usuario</th>
+            <th>Mesa</th>
+            <th>Total</th>
+            <th>Tipo de Pago</th>
+            <th>Cédula Cliente</th>
+            <th>Fecha de Compra</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for compra in compras %}
+        <tr>
+            <td>{{ compra.id }}</td>
+            <td>{{ compra.usuario.username }}</td>
+            <td>{{ compra.mesa.numero }}</td>
+            <td>{{ compra.total }}</td>
+            <td>{{ compra.get_tipo_pago_display }}</td>
+            <td>{{ compra.cedula_cliente }}</td>
+            <td>{{ compra.fecha_compra }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

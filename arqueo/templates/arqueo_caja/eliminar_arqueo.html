@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h3 class="card-title">Eliminar Arqueo de Caja ID# {{ arqueo.id }}</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Fecha de Inicio:</strong> {{ arqueo.fecha_inicio }}</p>
+            <p><strong>Efectivo Inicial:</strong> ${{ arqueo.efectivo_inicial|floatformat:2 }}</p>
+            <!-- Muestra otros detalles relevantes aquí -->
+            <form method="post">
+                {% csrf_token %}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger">Eliminar Arqueo</button>
+                    <a href="{% url 'listar_arqueos' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

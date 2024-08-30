@@ -1,0 +1,318 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/crear_pedido_domicilio.js' %}"></script>
+    <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
+    <script src="https://kit.fontawesome.com/7b6f7b68c2.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% block extra_css %}<link rel="stylesheet" href="{% static 'css/crear_pedido.css' %}">{% endblock %}
+    <style>
+body {
+        background-image: url("{% static 'images/backg.png' %}");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+    }
+        /* Estilo inicial para la barra lateral */
+.sidebar {
+    height: 100vh;
+    width: 165px; /* Tamaño original de la barra lateral */
+    position: fixed;
+    top: 0;
+    left: -165px; /* Ocultar la barra lateral inicialmente */
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    overflow-x: hidden;
+    transition: left 0.3s, width 0.3s; /* Transiciones para el movimiento y el tamaño */
+    z-index: 1000;
+}
+
+/* Mostrar la barra lateral cuando está abierta (por JavaScript o hover) */
+.sidebar.open {
+    left: 0; /* Mover a la posición visible */
+}
+
+/* Expandir la barra lateral al pasar el cursor */
+.sidebar:hover {
+    width: 165px; /* Tamaño expandido de la barra lateral */
+    left: 0; /* Asegurarse de que la barra lateral esté visible */
+}
+
+/* Estilo para los enlaces dentro de la barra lateral */
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+/* Efecto hover en los enlaces */
+.sidebar a:hover {
+    background-color: #ddd;
+}
+
+html, body {
+    height: 100%; /* Asegura que el <html> y <body> ocupen toda la altura de la ventana */
+    margin: 0; /* Elimina márgenes por defecto */
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Organiza el contenido en una columna vertical */
+}
+
+/* Estilo para el contenido principal */
+.main-content {
+    margin-left: 0;
+    flex: 1;
+    transition: margin-left 0.3s;
+}
+
+footer {
+    background-image: url("{% static 'images/backgr.png' %}");
+    background-size: cover;
+    background-position: center;
+    color: #0b0a0a; /* Color de texto oscuro para contraste */
+    padding: 2rem; /* Espaciado generoso */
+    border-top: 1px solid #080808; /* Línea delgada arriba para separación sutil */
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; /* Tipografía moderna */
+}
+
+footer p {
+    margin: 0.5rem 0; /* Espaciado entre párrafos */
+    font-size: 0.875rem; /* Tamaño de fuente pequeño pero legible */
+}
+
+footer address {
+    margin-top: 1rem;
+    font-style: normal; /* Quitar estilo de cursiva por defecto */
+}
+
+footer a {
+    color: #007aff; /* Color azul para enlaces, similar al estilo de Apple */
+    text-decoration: none; /* Quitar subrayado */
+}
+
+footer a:hover {
+    text-decoration: underline; /* Subrayado en el hover para accesibilidad */
+}
+
+footer .container {
+    max-width: 1200px; /* Ancho máximo del contenedor para diseño fluido */
+    margin: 0 auto; /* Centrar el contenedor */
+}
+
+/* Ajustar el margen del contenido principal cuando la barra lateral está abierta */
+.main-content.shift {
+    margin-left: 250px; /* Espacio para la barra lateral expandida */
+}
+
+/* Botón para alternar la visibilidad de la barra lateral (opcional si no es necesario) */
+.toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    cursor: pointer;
+    font-size: 28px;
+    background: #000000;
+    border: none;
+    padding: 4px;
+    border-radius: 12px;
+}
+/* Estilo inicial para los menús desplegables */
+.sidebar .dropdown-menu {
+    display: none; /* Ocultar el menú por defecto */
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0; /* Hacer el menú invisible por defecto */
+    visibility: hidden; /* Asegurar que no se puede interactuar con el menú cuando está oculto */
+    z-index: 1001; /* Asegurar que el menú se muestre sobre otros elementos */
+}
+
+/* Mostrar el menú desplegable cuando el cursor está sobre el ítem del menú */
+.sidebar .nav-item:hover .dropdown-menu {
+    display: block; /* Mostrar el menú */
+    opacity: 1; /* Hacer el menú visible */
+    visibility: visible; /* Hacer el menú interactivo */
+}
+
+/* Asegurar que el menú desplegable se mantenga visible mientras el cursor está sobre él */
+.sidebar .dropdown-menu:hover {
+    display: block; /* Mantener el menú visible */
+    opacity: 1; /* Mantener el menú visible */
+    visibility: visible; /* Mantener el menú interactivo */
+}
+
+/* Estilo responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        left: 0; /* Mostrar la barra lateral en pantallas pequeñas */
+    }
+    .main-content.shift {
+        margin-left: 0;
+    }
+    .toggle-btn {
+        left: 10px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <button class="toggle-btn">
+        <span class="text-primary" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"><img src="{% static 'images/logo.png' %}" alt="Mesa" style="width:117px; height:44px;"></span>
+    </button>
+    <br>
+    <div class="sidebar">
+        <br>
+        <br>
+        <br>
+        <br>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+            
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="text-primary"><img src="{% static 'icons/dash.svg' %}" alt="Mesa" style="width:27px; height:27px;"></span> Dashboard
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'crear_pedido' %}">Restaurante</a></li>
+                    <li><a class="dropdown-item" href="{% url 'listar_pedidos_activos' %}">Cocina</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="text-primary"><img src="{% static 'icons/ventas.svg' %}" alt="Mesa" style="width:27px; height:27px;"></span> Ventas
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'obtener_registros_venta' %}">Historial</a></li>
+                    <li><a class="dropdown-item" href="{% url 'estadisticas' %}">Estadisticas</a></li>
+                    <li><a class="dropdown-item" href="{% url 'listar_arqueos' %}">Arqueo</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'listar_pagos' %}">Pagos</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="text-primary"><img src="{% static 'icons/stock.svg' %}" alt="Mesa" style="width:27px; height:27px;"></span> Inventario
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'listar_mesas' %}">Mesas</a></li>
+                    <li><a class="dropdown-item" href="{% url 'listar_platos' %}">Platos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'lista_productos' %}">Productos</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="text-primary"><img src="{% static 'icons/user.svg' %}" alt="Mesa" style="width:27px; height:27px;"></span> Usuario
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'profile' %}">Perfil</a></li>
+                    <li><a class="dropdown-item" href="{% url 'listar_clientes' %}">Clientes</a></li>
+                    <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="mb-1 text-white">&copy; {{ current_year }} GastroPOS. Todos los derechos reservados.</p>
+            <address class="mt-2">
+                <a href="https://www.facebook.com/profile.php?id=61564665164118"><img src="{% static 'icons/facebook.svg' %}" alt="Mesa" style="width:37px; height:37px;"></a><img src="{% static 'icons/instagram.svg' %}" alt="Mesa" style="width:37px; height:37px;"><img src="{% static 'icons/gmail.svg' %}" alt="Mesa" style="width:37px; height:37px;"><img src="{% static 'icons/wpp.svg' %}" alt="Mesa" style="width:37px; height:37px;">
+                
+            </address>
+        </div>
+    </footer>
+    <!-- Fin del Footer -->
+
+
+    <script src="{% static 'js/crear_pedido_domicilio.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    var sidebar = document.querySelector('.sidebar');
+    var mainContent = document.querySelector('.main-content');
+    var toggleBtn = document.querySelector('.toggle-btn');
+
+    // Manejar el clic en el botón para alternar la barra lateral
+    toggleBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+        mainContent.classList.toggle('shift');
+    });
+
+    // Expandir la barra lateral al pasar el cursor sobre el botón
+    toggleBtn.addEventListener('mouseover', function() {
+        sidebar.classList.add('open');
+        mainContent.classList.add('shift');
+    });
+
+    // Contraer la barra lateral al quitar el cursor del botón
+    toggleBtn.addEventListener('mouseout', function() {
+        // Si la barra lateral no está abierta por el clic, contraerla
+        if (!sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('shift');
+        }
+    });
+
+    // Opcional: Cerrar la barra lateral al hacer clic fuera de ella
+    document.addEventListener('click', function(event) {
+        if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('shift');
+        }
+    });
+
+    // Manejar el despliegue de los dropdowns al pasar el cursor
+    var dropdownItems = document.querySelectorAll('.sidebar .nav-item');
+
+    dropdownItems.forEach(function(item) {
+        item.addEventListener('mouseover', function() {
+            var dropdownMenu = item.querySelector('.dropdown-menu');
+            if (dropdownMenu) {
+                dropdownMenu.style.display = 'block';
+                dropdownMenu.style.opacity = '1';
+                dropdownMenu.style.visibility = 'visible';
+            }
+        });
+
+        item.addEventListener('mouseout', function() {
+            var dropdownMenu = item.querySelector('.dropdown-menu');
+            if (dropdownMenu) {
+                dropdownMenu.style.display = 'none';
+                dropdownMenu.style.opacity = '0';
+                dropdownMenu.style.visibility = 'hidden';
+            }
+        });
+    });
+});
+
+    </script>
+</body>
+</html>

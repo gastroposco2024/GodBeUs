@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_pedido.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h4>Crear Pedido de Domicilio</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'crear_pedido_domicilio' %}">
+                        {% csrf_token %}
+                        {{ form_domicilio.as_p }}
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Crear Pedido Domicilio</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

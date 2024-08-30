@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card card-custom shadow-sm">
+
+                <div class="card-body card-body-custom">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group mb-3"><strong>
+                            {{ form.as_p }}
+                        </div></strong>
+                        <div class="text-center mt-4">
+                            <a href="javascript:history.back()" class="btn btn-danger"><i class="fa-solid fa-circle-left" style="font-size: 12px;"> Cancelar</i></a>
+                            <button type="submit" class="btn btn-success"><i class="fa-regular fa-floppy-disk" style="font-size: 12px;"> Guardar</i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

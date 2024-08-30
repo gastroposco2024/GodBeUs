@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_pedido.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-9 mx-auto">
+            <div class="card shadow-sm" style="background: transparent; border-style: none;">                 
+                    <div class="card-header text-white text-center pedido-header">
+                        <h4>MESA {{ pedido.mesa.numero }}</h4>
+                    </div>                 
+                    <div class="card-body text-center pedido-body">
+                        <!-- Muestra la fecha del pedido en el centro -->
+                        <h4><span class="badge badge-custom-large bg-white rounded-pill text-dark"><img src="{% static 'icons/hora.svg' %}" alt="Mesa" style="width:22px; height:22px;"> {{ pedido.fecha_pedido|date:"h:i a" }}</span></h4>
+                        
+                        <div class="row">
+                            <div class="col-md-10 mx-auto">
+                                <!-- Lista de artículos del pedido -->
+                                <ul class="list-group pedido-items">
+                                    
+                                    {% for item in pedido.itempedido_set.all %}
+                                    <form method="post" action="{% url 'detalle_pedido' mesa_id=pedido.mesa.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                 
+                                        <li class="list-group-item pedido-item d-flex align-items-center">
+                                            <!-- Nombre del plato -->
+                                            <div class="col-md-3">
+                                                <h5>{{ item.plato.nombre }}</h5>
+                                            </div>
+                                            <!-- Controles de cantidad -->
+                                            <div class="d-flex col-md-4 align-items-center justify-content-center">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeQuantity('decrement', '{{ item.id }}')"><i class="fa-solid fa-minus"></i></button>
+                                                <input type="number" name="cantidad" id="cantidad_{{ item.id }}" value="{{ item.cantidad }}" class="form-control form-control-custom quantity-input mx-2" style="width: 80px;">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="changeQuantity('increment', '{{ item.id }}')"><i class="fa-solid fa-plus"></i></button>
+                                            </div>
+                                            <!-- Botones de editar y eliminar -->
+                                            <div class="col-md-5 d-flex justify-content-end">     
+                                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                                <button type="submit" name="editar_plato" class="btn btn-custom btn-sm mx-1"><i class="fa-solid fa-arrows-rotate" style="font-size: 26px;"></i></button>
+                                            </form>
+                                                <form method="post" action="{% url 'detalle_pedido' mesa_id=pedido.mesa.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                                                    <button type="submit" name="eliminar_plato" class="btn btn-custom-back btn-sm mx-1"><i class="fa-solid fa-trash-can" style="font-size: 26px;"></i></button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    {% empty %}
+                                        <li class="list-group-item list-group-item-custom bg-warning text-white"><strong>No hay artículos en el pedido.</strong></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Botón para volver al anterior -->
+                        <div class="text-center mt-4">
+                            <form method="post" action="{% url 'agregar_plato_pedido' pedido.id %}" class="form-inline justify-content-center">
+                                {% csrf_token %}
+                                {{ form.as_p }} <!-- Renderiza el formulario -->
+                                      
+                        </div>
+                        <div class="card-footer"> 
+                            <a href="{% url 'crear_pedido' %}" class="btn btn-hover"><img src="{% static 'icons/backaw.svg' %}" alt="Mesa" style="width:37px; height:37px;"></a>
+                            <button type="submit" class="btn btn-hover"><img src="{% static 'icons/add_black.svg' %}" alt="Mesa" style="width:42px; height:42px;"></button>
+                            <a href="{% url 'finalizar_venta' pedido.id %}" class="btn btn-hover"><img src="{% static 'icons/check_black.svg' %}" alt="Mesa" style="width:42px; height:42px;"></a>
+                        </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    function changeQuantity(action, itemId) {
+        var input = document.getElementById('cantidad_' + itemId);
+        var currentValue = parseInt(input.value, 10);
+        
+        if (action === 'increment') {
+            input.value = currentValue + 1;
+        } else if (action === 'decrement') {
+            if (currentValue > 1) { // Asegúrate de que la cantidad no sea menor a 1
+                input.value = currentValue - 1;
+            }
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,271 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card card-custom shadow-sm">
+        <div class="card-body card-body-custom">
+            <div class="card-body mt-4">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+
+                            <div class="form-group mb-3">
+                                <label for="id_efectivo_inicial" class="form-label">Efectivo Inicial:</label>
+                                {{ form.efectivo_inicial.errors }}
+                                {{ form.efectivo_inicial }}
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="id_efectivo_final" class="form-label">Efectivo Final:</label>
+                                {{ form.efectivo_final.errors }}
+                                {{ form.efectivo_final }}
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="id_observaciones" class="form-label">Observaciones:</label>
+                                {{ form.observaciones.errors }}
+                                {{ form.observaciones }}
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-md-2 mb-3">
+                            <div class="form-group mb-3">
+                                <h5 class="card-title-finalizar mb-4"><strong>Monedas</strong></h5>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/moneda_50.jpg' %}" alt="Moneda de 50" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_monedas_50">-</button>
+                                    <input type="number" id="id_monedas_50" name="monedas_50" class="form-control" value="{{ form.monedas_50.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_monedas_50">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/moneda_100.jpg' %}" alt="Moneda de 100" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_monedas_100">-</button>
+                                    <input type="number" id="id_monedas_100" name="monedas_100" class="form-control" value="{{ form.monedas_100.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_monedas_100">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/moneda_200.jpg' %}" alt="Moneda de 200" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_monedas_200">-</button>
+                                    <input type="number" id="id_monedas_200" name="monedas_200" class="form-control" value="{{ form.monedas_200.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_monedas_200">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/moneda_500.jpg' %}" alt="Moneda de 500" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_monedas_500">-</button>
+                                    <input type="number" id="id_monedas_500" name="monedas_500" class="form-control" value="{{ form.monedas_500.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_monedas_500">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/moneda_1000.jpg' %}" alt="Moneda de 1000" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_monedas_1000">-</button>
+                                    <input type="number" id="id_monedas_1000" name="monedas_1000" class="form-control" value="{{ form.monedas_1000.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_monedas_1000">+</button>
+                                </div>
+                            </div>
+                        </div>
+                            
+                        <div class="col-md-2 mb-3">
+                            <div class="form-group mb-3">
+                                <h5 class="card-title-finalizar mb-4"><strong>Billetes</strong></h5>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/billete_2000.png' %}" alt="Billete de 2000" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_billetes_2000">-</button>
+                                    <input type="number" id="id_billetes_2000" name="billetes_2000" class="form-control" value="{{ form.billetes_2000.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_billetes_2000">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/billete_5000.jpg' %}" alt="Billete de 5000" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_billetes_5000">-</button>
+                                    <input type="number" id="id_billetes_5000" name="billetes_5000" class="form-control" value="{{ form.billetes_5000.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_billetes_5000">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/billete_10000.jpeg' %}" alt="Billete de 10000" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_billetes_10000">-</button>
+                                    <input type="number" id="id_billetes_10000" name="billetes_10000" class="form-control" value="{{ form.billetes_10000.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_billetes_10000">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/billete_20000.jpg' %}" alt="Billete de 20000" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_billetes_20000">-</button>
+                                    <input type="number" id="id_billetes_20000" name="billetes_20000" class="form-control" value="{{ form.billetes_20000.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_billetes_20000">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/billete_50000.jpg' %}" alt="Billete de 50000" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_billetes_50000">-</button>
+                                    <input type="number" id="id_billetes_50000" name="billetes_50000" class="form-control" value="{{ form.billetes_50000.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_billetes_50000">+</button>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text p-0">
+                                        <img src="{% static 'images/billete_100000.jpeg' %}" alt="Billete de 100000" class="span-size-image">
+                                    </span>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="decrease" data-target="#id_billetes_100000">-</button>
+                                    <input type="number" id="id_billetes_100000" name="billetes_100000" class="form-control" value="{{ form.billetes_100000.value|default:"0" }}" min="0">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="increase" data-target="#id_billetes_100000">+</button>
+                                </div>
+                            </div>
+                        </div>    
+                        
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group mb-3">
+                                <h5 class="card-title-finalizar mb-4"><strong>TOTAL CONTADO</strong></h5>
+                                <input type="text" id="total_monedas_billetes" class="form-control" readonly>
+                            </div>
+                            <h5 class="card-title-finalizar mb-4"><strong>VENTAS</strong></h5>
+                            <table class="table table-hover">
+                                <thead class="table-warning">
+                                    <tr>
+                                        <th>Método de Pago</th>
+                                        <th>Total Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for metodo, total in ventas_por_metodo.items %}
+                                    <tr>
+                                        <td class="table-primary">{{ metodo }}</td>
+                                        <td class="table-primary">${{ total|floatformat:2 }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr class="table-primary">
+                                        <td colspan="2" class="text-center">No hay ventas registradas.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <h5 class="card-title-finalizar mb-4"><strong>DOMICILIOS</strong></h5>
+                            <table class="table table-hover">
+                                <thead class="table-warning">
+                                    <tr>
+                                        <th>Método de Pago</th>
+                                        <th>Total Ventas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for metodo, total in ventas_por_metodo_domicilios.items %}
+                                    <tr>
+                                        <td class="table-primary">{{ metodo }}</td>
+                                        <td class="table-primary">${{ total|floatformat:2 }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr class="table-primary">
+                                        <td colspan="2" class="text-center">No hay ventas registradas.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <h5 class="card-title-finalizar mb-4"><strong>PAGOS</strong></h5>
+                            <table class="table table-hover">
+                                <thead class="table-warning">
+                                    <tr>
+                                        <th>Método de Pago</th>
+                                        <th>Total Pagos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for metodo, total in pagos_por_metodo.items %}
+                                    <tr>
+                                        <td class="table-primary">{{ metodo }}</td>
+                                        <td class="table-primary">${{ total|floatformat:2 }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr class="table-primary">
+                                        <td colspan="2" class="text-center">No hay pagos registrados.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                            <!-- Render hidden fields -->
+                            {{ form.estado }}
+                            {{ form.total_efectivo }}
+                            {{ form.total_consignacion }}
+                            {{ form.total_transferencia }}
+                            {{ form.total_cheque }}
+                            {{ form.total_tarjeta_credito }}
+                            {{ form.total_tarjeta_debito }}
+                            <div class="text-center">
+                                <a href="javascript:history.back()" class="btn btn-danger"><i class="fa-solid fa-circle-left" style="font-size: 14px;"> Cancelar</i></a>
+                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cash-register"> Iniciar Arqueo</i></button>
+                            </div>
+                        </form>
+                    </div>
+
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const updateTotal = () => {
+        let total = 0;
+        total += parseInt(document.getElementById('id_monedas_50').value || 0) * 50;
+        total += parseInt(document.getElementById('id_monedas_100').value || 0) * 100;
+        total += parseInt(document.getElementById('id_monedas_200').value || 0) * 200;
+        total += parseInt(document.getElementById('id_monedas_500').value || 0) * 500;
+        total += parseInt(document.getElementById('id_monedas_1000').value || 0) * 1000;
+        total += parseInt(document.getElementById('id_billetes_2000').value || 0) * 2000;
+        total += parseInt(document.getElementById('id_billetes_5000').value || 0) * 5000;
+        total += parseInt(document.getElementById('id_billetes_10000').value || 0) * 10000;
+        total += parseInt(document.getElementById('id_billetes_20000').value || 0) * 20000;
+        total += parseInt(document.getElementById('id_billetes_50000').value || 0) * 50000;
+        total += parseInt(document.getElementById('id_billetes_100000').value || 0) * 100000;
+
+        document.getElementById('total_monedas_billetes').value = total.toFixed(2);
+    };
+
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('input', updateTotal);
+    });
+
+    document.querySelectorAll('button[data-action]').forEach(button => {
+        button.addEventListener('click', function() {
+            const action = this.getAttribute('data-action');
+            const target = document.querySelector(this.getAttribute('data-target'));
+            let currentValue = parseInt(target.value || 0);
+            if (action === 'increase') {
+                target.value = currentValue + 1;
+            } else if (action === 'decrease') {
+                target.value = Math.max(currentValue - 1, 0);
+            }
+            updateTotal();
+        });
+    });
+
+    updateTotal();
+});
+</script>
+
+{% endblock %}

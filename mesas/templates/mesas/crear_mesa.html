@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card shadow-sm" style="background: white; border: none;">
+                <div class="card-body card-body-custom">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="{{ form.numero.id_for_label }}" class="text-dark">N° Mesa</label>
+                            {{ form.numero }}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="{{ form.capacidad.id_for_label }}" class="text-dark">Capacidad</label>
+                            {{ form.capacidad }}
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="{{ form.estado.id_for_label }}" class="text-dark">Estado</label>
+                            {{ form.estado }}
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="javascript:history.back()" class="btn btn-hover"><img src="{% static 'icons/close_black.svg' %}" alt="Mesa" style="width:47px; height:47px;"></a>
+                            <button type="submit" class="btn btn-hover"><img src="{% static 'icons/check_black.svg' %}" alt="Mesa" style="width:47px; height:47px;"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

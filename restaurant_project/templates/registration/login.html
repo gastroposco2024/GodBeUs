@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+<style>
+    /* Fondo de la página con imagen */
+    body {
+        background-image: url("{% static 'images/background.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+    }
+
+    /* Tarjeta de inicio de sesión personalizada */
+    .card-custom-prueba {
+        border-radius: 15px;
+        margin-top: 100px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    /* Estilo de los botones */
+    .btn-warning {
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        background-color: #ffc107;
+        border: none;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        color: #fff;
+        transform: scale(1.05);
+    }
+
+    /* Estilo de los campos de formulario */
+    .form-control {
+        border-radius: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Centrado de iconos */
+    .login-icon {
+        font-size: 50px;
+        color: #007bff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-4">
+            <div class="card card-custom-prueba shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Bienvenido de Nuevo</h4>
+                    <p class="mb-0">Por favor, inicia sesión para continuar</p>
+                </div>
+                <div class="card-body">
+                    <!-- Icono de usuario en el login -->
+                    <div class="text-center mb-3">
+                        <i class="fa fa-user-circle login-icon"></i>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group text-center">
+                            <label for="{{ form.username.id_for_label }}">Nombre de Usuario</label><br>
+                            <input type="text" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" class="form-control text-center" value="{{ form.username.value }}" required>
+                        </div>
+                        <div class="form-group text-center">
+                            <label for="{{ form.password.id_for_label }}">Contraseña</label><br>
+                            <input type="password" id="{{ form.password.id_for_label }}" name="{{ form.password.html_name }}" class="form-control text-center" value="{{ form.password.value }}" required>
+                        </div>
+                        <div class="text-center">
+                            <br>
+                            <button type="submit" class="btn btn-warning btn-block"><strong>Iniciar Sesión</strong></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Card for Editing Sale -->
+    <div class="card card-custom-prueba shadow-sm">
+
+        <div class="card-body">
+            <div class="row">
+                <!-- Columna para los detalles del arqueo -->
+                <div class="col-md-5 mb-4">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><h5><strong>Fecha de Compra:</strong> {{ compra.fecha_compra|date:"d/m/Y h:i a" }}</h5></li>
+                        <li class="list-group-item"><h5><strong>Mesa:</strong> {{ compra.mesa.numero }}</h5></li>
+                        <li class="list-group-item"><h5><strong>Subtotal:</strong> ${{ compra.total|format_number }}</h5></li>
+                        <li class="list-group-item"><h5><strong>Valor del Impuesto:</strong> ${{ compra.valor_impuesto|format_number }}</h5></li>
+                        <li class="list-group-item"><h5><strong>Total con Impuesto:</strong> ${{ compra.total_impuesto|format_number }}</h5></li>    
+                    </ul>
+            
+                </div>
+
+                <div class="col-md-7 mb-4">
+                    <!-- Platos en la compra -->
+                    <h5 class="mt-4 text-dark"><img src="{% static 'icons/items.svg' %}" alt="Mesa" style="width:27px; height:27px;"> ITEMS</h5>
+                    <ul class="list-group">
+                        {% for detalle in compra.detalles.all %}
+                        <li class="list-group-item">
+                            <img src="{% static 'icons/items_check.svg' %}" alt="Mesa" style="width:27px; height:27px; font-weight: bold;"></strong> {{ detalle.plato.nombre }}<strong> - Cantidad: </strong>{{ detalle.cantidad }} <strong>- Precio: </strong>{{ detalle.plato.precio|format_number }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-footer text-center">
+            <button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#ModalFinalizar" style="font-size: 17px;"><img src="{% static 'icons/receipt.svg' %}" alt="Mesa" style="width:27px; height:27px;"> FACTURACION</button>
+        </div>
+        
+        <div class="card-body">
+            <!-- Tabla con datos del formulario -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <table class="table table-warning">
+                        <form method="post">
+                            {% csrf_token %}         
+                        <thead>
+                            <tr>
+                                <th>Impuesto</th>
+                                <th>Total</th>
+                                <th>Tipo Pago</th>
+                                <th>Documento Cliente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ form.impuesto }}</td>
+                                <td>{{ form.total }}</td>
+                                <td>{{ form.tipo_pago }}</td>
+                                <td>{{ form.cedula_cliente }}</td>
+                    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+                <!-- Botón para guardar los cambios -->
+                <div class="text-center">
+                    <br>
+                    <a href="{% url 'obtener_registros_venta' %}" class="btn btn-custom bg-danger" style="color: rgb(255, 255, 255);"><img src="{% static 'icons/back.svg' %}" alt="Mesa" style="width:27px; height:27px;"> VOLVER</a>
+                    <button type="submit" class="btn btn-custom bg-success"><img src="{% static 'icons/save.svg' %}" alt="Mesa" style="width:27px; height:27px;"> GUARDAR</button>
+                </div>
+            </form>
+        </div>
+
+        
+
+        
+    </div>
+</div>
+
+<!-- Modal para opciones de finalización -->
+<div class="modal fade" id="ModalFinalizar" tabindex="-1" role="dialog" aria-labelledby="finalizarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content card-custom-prueba">
+            <div class="modal-body">
+                <form method="get" action="{% url 'enviar_factura_por_email' compra.id %}">
+                    <div class="form-group">
+                        <label for="email">Dirección de Correo Electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Introduce el email">
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-warning text-white"><img src="{% static 'icons/gmail.svg' %}" alt="Mesa" style="width:27px; height:27px;"></button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'imprimir_factura' compra.id %}" class="btn btn-custom"><i class="fa-solid fa-print"> factura pos</i></a>
+                <a href="{% url 'imprimir_factura' compra.id %}" class="btn btn-custom"><i class="fa-solid fa-file-invoice"> Electronica</i></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/crear_plato.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card  card-custom shadow-sm">
+        <div class="card-body">
+            <!-- Formulario de edición en cuadrícula -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        {{ form.fecha.label_tag }}
+                        {{ form.fecha }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.metodo_pago.label_tag }}
+                        {{ form.metodo_pago }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        {{ form.nota_egreso.label_tag }}
+                        {{ form.nota_egreso }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.archivo_adjunto }}            
+                    </div>
+                </div>
+
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="panelsStayOpen-collapse{{ forloop.counter }}">
+                                <strong> Formulario de Ingreso de Productos</strong>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapse{{ forloop.counter }}" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="row mb-3">
+                                            <div class="col-md-8">
+                                                <label for="producto_select">Producto</label>
+                                                <select id="producto_select" class="form-control">
+                                                    {% for producto in productos %}
+                                                        <option value="{{ producto.id }}">{{ producto.nombre }}/{{ producto.unidad_medida|slice:"-3:" }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="cantidad_agregar">Cantidad</label>
+                                                <input type="number" id="cantidad_agregar" class="form-control" min="1">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" onclick="agregarProducto()">Agregar</button>
+                                    </div>
+                                    
+                                
+                                    <div class="col-md-6">
+                                        <h4>Productos seleccionados:</h4>
+                                        <ul id="lista-productos" class="list-group">
+                                            
+                                            <!-- Items agregados dinámicamente -->
+                                        </ul>
+                                    </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                 <!-- Aquí están los inputs ocultos generados dinámicamente -->
+                 <div id="productos-hidden-inputs"></div>
+
+                <!-- Tabla con datos del formulario -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <table class="table table-primary">
+                            <thead>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Valor</th>
+                                    <th>Impuesto</th>
+                                    <th>Cantidad</th>
+                                    <th>Observaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ form.concepto }}</td>
+                                    <td>{{ form.valor }}</td>
+                                    <td>{{ form.impuesto }}</td>
+                                    <td>{{ form.cantidad }}</td>
+                                    <td>{{ form.observaciones }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Mostrar información adicional en una tarjeta -->
+                <div class="card mt-4">
+
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Subtotal:</strong>
+                                <span class="float-end"><strong>${{ pago.valor|format_number }}</strong></span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>{{ pago.impuesto }}:</strong>
+                                <span class="float-end">${{ pago.valor_impuesto|format_number }}</span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Total Cobrado:</strong>
+                                <span class="float-end"><strong>${{ pago.calcular_total|format_number }}</strong></span>
+                            </li>
+                        </ul>                        
+                    </div>
+                </div>
+                <!-- Botón de actualizar al final del formulario -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'listar_pagos' %}" class="btn btn-custom bg-danger" style="color: rgb(255, 255, 255);"><img src="{% static 'icons/back.svg' %}" alt="Mesa" style="width:27px; height:27px;"> VOLVER</a>
+                    <button type="submit" class="btn btn-custom bg-success"><img src="{% static 'icons/save.svg' %}" alt="Mesa" style="width:27px; height:27px;"> GUARDAR</button>                 
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<script>
+    let productosSeleccionados = [];
+
+    function agregarProducto() {
+        const selectProducto = document.getElementById('producto_select');
+        const cantidadAgregar = document.getElementById('cantidad_agregar').value;
+        const productoId = selectProducto.value;
+        const productoNombre = selectProducto.options[selectProducto.selectedIndex].text;
+
+        if (productoId && cantidadAgregar > 0) {
+            // Agregar producto a la lista de seleccionados
+            productosSeleccionados.push({ id: productoId, nombre: productoNombre, cantidad: cantidadAgregar });
+            actualizarLista();
+        }
+    }
+
+    function actualizarLista() {
+        const lista = document.getElementById('lista-productos');
+        lista.innerHTML = ''; // Limpiar la lista
+
+        const hiddenInputsContainer = document.getElementById('productos-hidden-inputs');
+        hiddenInputsContainer.innerHTML = ''; // Limpiar inputs ocultos
+
+        // Recorrer los productos seleccionados y añadir a la lista
+        productosSeleccionados.forEach((producto, index) => {
+            const item = document.createElement('li');
+            item.className = 'list-group-item';
+            item.textContent = `${producto.nombre} - Cantidad: ${producto.cantidad}`;
+            lista.appendChild(item);
+
+            // Crear inputs ocultos para enviar con el formulario
+            const inputProducto = document.createElement('input');
+            inputProducto.type = 'hidden';
+            inputProducto.name = `productos[${index}][id]`;  // Cambiar a estructura de lista de objetos
+            inputProducto.value = producto.id;
+            hiddenInputsContainer.appendChild(inputProducto);
+
+            const inputCantidad = document.createElement('input');
+            inputCantidad.type = 'hidden';
+            inputCantidad.name = `productos[${index}][cantidad]`;  // Cambiar a estructura de lista de objetos
+            inputCantidad.value = producto.cantidad;
+            hiddenInputsContainer.appendChild(inputCantidad);
+        });
+    }
+</script>
+
+{% endblock %}
